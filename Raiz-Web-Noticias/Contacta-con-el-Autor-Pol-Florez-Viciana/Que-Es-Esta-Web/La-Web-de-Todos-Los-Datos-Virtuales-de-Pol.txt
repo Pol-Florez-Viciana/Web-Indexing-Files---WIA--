@@ -1,0 +1,8 @@
+﻿<b><label style="color: red;">28/05/2018</label></b><br>
+En esta Web puedes encontrar todos los documentos virtuales que hago con las maquinas de ocio. Estos son Música, Documentos de Información, Vídeos, Programas y Aplicaciones, y Archivos de Muchas Clases.<br>
+<br><br>
+En este Web Puedes ver Valoraciones que hace el Autor Sobre el Contenido de esos Artículos.<br>
+La Puntuación la baso en 3 Puntos:<br>
+1.- Tiempo de Dedicación<br>
+2.- Su Funcionalidad y Finalidad.<br>
+3.- Complejidad en su Realización<br>

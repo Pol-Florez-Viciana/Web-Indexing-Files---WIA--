@@ -1,0 +1,5 @@
+Para Agregar una Raíz debes de editar las páginas web que se acompañan al sistema o crear las que se quieran incluir modificando los códigos 
+en php que se incrusten en la página web ( index.php , raiz-principal.php , aplicaciones.php , etc ).<br>
+Para esto consulta como esta hecha las paginas aquí aderidas y veras que es muy sencillo de modificar y todo esta muy resumido para que donde se carguen 
+las secciones con la Funcion GetSections(), sea donde residen los artículos y a las paginas a las que hacer referencia en cuanto a las otras funciones 
+como GetCurrentArticles() y GetLinkSections() . Por lo que todo esta muy bien resumido y bien explicado por esas zonas del desarrollo.

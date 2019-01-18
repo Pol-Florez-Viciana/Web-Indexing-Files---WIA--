@@ -1,0 +1,67 @@
+﻿* { margin: 0px; padding: 0px; }
+body { width: 100%; height: 100%; background-color: black; }
+html { width: 100%; height: 100%; }
+center { width: 100%; height: 100%; }
+#Pantalla { width: 100%; height: 100%; overflow: hidden;
+		  }
+#Contenedor1 { opacity: 0.75; box-shadow: 0px 0px 25px white; display: inline-block; z-index: 1; position: absolute; top: 15%; left: 5%; width: 35%; height: 24%; 
+			   border-radius: 25px; border: doubble 15px blue;
+			   background-image: url(../img/Imagen1.jpg); background-size: 100% 100%; 
+			   animation: animacion1 3s infinite;
+			   }
+#Contenedor2 { opacity: 0.75; box-shadow: 0px 0px 25px white; display: inline-block; z-index: 3; position: absolute; top: 30%; left: 20%; width: 60%; height: 54%; 
+			   border-radius: 25px; border: doubble 15px green; transform: rotate(-2deg);
+			   background-image: url(../img/Imagen2.jpg); background-size: 100% 100%; 
+			 }
+#Contenedor3 { opacity: 0.75; box-shadow: 0px 0px 25px white; display: inline-block; z-index: 2; position: absolute; top: 15%; right: 5%; width: 35%; height: 24%; 
+			   border-radius: 25px;	border: doubble 15px blue;
+			   background-image: url(../img/Imagen3.jpg); background-size: 100% 100%; 
+			   animation: animacion2 3s infinite;
+			 }
+#Contenedor4 { opacity: 0.75; box-shadow: 0px 0px 25px white; display: inline-block; z-index: 4; position: absolute; top: 80%; left: 10%; width: 80%; height: 15%; 
+			   border-radius: 25px; border: doubble 15px green; transform: rotate(1deg);
+			   background-image: url(../img/PolSi.jpg); background-size: 100% 100%; 
+			   transition: all 2s linear;
+			 }
+.Content1 { animation: animacion1 5s infinite; }
+.Content2 { animation: animacion2 5s infinite; }
+@keyframes animacion1 {
+	from { top: -105%; left: -105%; width: 35%; height: 24%; }
+	to { top: 30%; left: 20%; width: 60%; height: 54%; transform: rotate(-2deg); }
+}
+@-webkit-keyframes animacion1 {
+	from { top: -105%; left: -105%; width: 35%; height: 24%; }
+	to{  top: 30%; left: 20%; width: 60%; height: 54%; transform: rotate(-2deg); }
+}
+@-ms-keyframes animacion1 {
+	from { top: -105%; left: -105%; width: 35%; height: 24%; }
+	to { top: 30%; left: 20%; width: 60%; height: 54%; transform: rotate(-2deg); }
+}
+@-moz-keyframes animacion1 {
+	from { top: -105%; left: -105%; width: 35%; height: 24%; }
+	to { top: 30%; left: 20%; width: 60%; height: 54%; transform: rotate(-2deg); }
+}
+@-o-keyframes animacion1 {
+	from { top: -105%; left: -105%; width: 35%; height: 24%; }
+	to { top: 30%; left: 20%; width: 60%; height: 54%; transform: rotate(-2deg); }
+}
+@keyframes animacion2 {
+	from { top: 30%; right: 20%; width: 60%; height: 54%; transform: rotate(-2deg); }
+	to { top: -105%; right: 5%; width: 35%; height: 24%; }
+}
+@-webkit-keyframes animacion2 {
+	from { top: 30%; right: 20%; width: 60%; height: 54%; transform: rotate(-2deg); }
+	to { top: -105%; right: 5%; width: 35%; height: 24%; }
+}
+@-ms-keyframes animacion2 {
+	from { top: 30%; right: 20%; width: 60%; height: 54%; transform: rotate(-2deg); }
+	to { top: -105%; right: -105%; width: 35%; height: 24%; }
+}			
+@-moz-keyframes animacion2 {
+	from { top: 30%; right: 20%; width: 60%; height: 54%; transform: rotate(-2deg); }
+	to { top: -105%; right: 5%; width: 35%; height: 24%; }
+} 
+@-o-keyframes animacion2 {
+	from { top: 30%; right: 20%; width: 60%; height: 54%; transform: rotate(-2deg); }
+	to { top: -105%; right: 5%; width: 35%; height: 24%; }
+}

@@ -1,0 +1,4 @@
+Si Incluyes un TXT en la Carpeta Valoraciones que tiene el Sistema Web WIA, con el mismo Nombre de Archivo que la Carpeta Articulo, conseguiras que en el 
+artículo se cargue unas lineas mas de código con la valoración del autor de ese artículo la cual esa valoración se encuentra dentro del archivo TXT 
+que contiene codificación UTF8-SinBOM para su codificación en el sistema español de caracteres. Las Valoraciones son solo un número de 0 a 5 que indican la 
+puntuación de valor por estrellas, y con solo esto se puede incluir cualquier valoración a cualquier artículo que exista en la carpeta valoraciones. 

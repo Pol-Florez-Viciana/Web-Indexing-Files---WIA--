@@ -1,0 +1,3 @@
+Crea una Nueva Carpeta dentro de la Carpeta Raíz de Tu Elección y Ponle un Nombre Que Sera El Titulo de la Sección.<br>
+Solo Admite Caracteres de Nombres de Archivo así que el uso de caracteres especiales esta limitado a algunos de ellos solo, y también se recomienda no 
+utilizar caracteres especiales en estos nombres o titulos de Sección.

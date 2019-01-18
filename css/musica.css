@@ -1,0 +1,91 @@
+/* Codigos para los Elementos del Modulo Elements.php y Motor.php */
+/* Codigos Principales */
+* { margin: 0px; padding: 0px;  }
+html,center { width: 100%; height: 100%; } 
+body { width: 100%; height: 100%; font-family: Tahoma, Geneva, sans-serif; 
+	   background-color: black;
+}
+section { box-shadow: white 0px 0px 40px; }
+/* Codigo de las coockies */
+#AvisoLegal { font-size: 7mm; position: fixed; width: 96%; height: 96%; left: 0px; top: 0px; z-index: 500; text-align: center; background-color: rgba(74,74,74,0.7); padding: 2%; }
+#Formulario1 { background-color: rgba(74,74,74,0.7); }
+.InVisible { display: none; }
+.Margen5px { margin: 5px; }
+.Padding5px { padding: 5px; }
+.DisplayLineBlock { display: inline-block; }
+.ColorNegro { color: black; } 
+.ColorRojo { color: #FFB0B0; }
+.ColorVerde { color: #CEFFCE; } 
+.ColorAzul { color: #B7B7FF; }
+.ColorBlanco { color: white; }
+.FondoVerde { background-color: #CEFFCE; }
+.Fuente7mm { font-size: 7mm; }
+.BorderRadius10px { border-radius: 10px; }
+/* Codigo de Index y Elements Generator */
+#Inicio { width: 100%;  } 
+#PantallaInicial { width: 100%; height: 100%; }
+.PanelShow { width: 320px; height: 480px;  }
+.Panel { width: 320px; height: 480px; position: absolute; background-color: gray; }
+.SubPanel { width: 320px; height: 480px; overflow: scroll; display: block; }
+.SubPanel:hover .Panel { display: none; }
+#Calendario table { width: 100%; }
+.hidden { display: none; }
+.WebTitle { text-align: center; color: rgb(255,255,128); }
+.WebSection { width: 98%; padding: 5px; text-align: justify; }
+.Section { width: 98%; }
+.Menu-Superior { text-align: center; padding: 5px; overflow: hidden; background-color: rgb(96,96,96); height: 40px;  transition: all 2s linear; width: 100%; z-index: 20; position: fixed; top: 0px; right: 0px; }
+.Menu-Superior:hover,.Menu-Superior:focus { height: auto;  } 
+.Menu-Superior div div { border-radius: 24px; box-shadow: rgb(0,0,0) 0px 0px 45px; margin: 10px; vertical-align: top; transition: all 0.8s linear; }
+.Menu-Superior div div:hover { background-color: rgb(0,0,64); }
+.Menu-Inferior { background-color: gray; }
+.Menu-Inferior div div { margin: 10px; vertical-align: top; transition: all 0.8s linear; }
+.Menu-Inferior div div:hover { background-color: black; }
+.LinkStart { position: fixed; left: 0px; top: 13px; background-color: black; border: dashed 2px white; padding: 5px; color: white; transition: all 1s linear; box-shadow: rgb(255,255,255) 0px 0px 25px; border-radius: 50%; }
+.LinkStart:visited,.LinkStart:link { color: white;  } 
+.LinkStart:hover { color: red; background-color: silver; }
+.LinkStartMenu { background-color: black; border: dashed 2px white; padding: 5px; color: white; transition: all 1s linear; box-shadow: rgb(255,255,255) 0px 0px 25px; }
+.LinkStartMenu:visited,.LinkStart:link { color: white;  } 
+.LinkStartMenu:hover { color: red; background-color: silver; }
+.TitleSection { color: rgb(196,0,196); text-align: center; }
+.LinkSection { border-radius: 24px; vertical-align: top; transition: all 0.8s linear; box-shadow: rgb(128,128,128) 0px 0px 25px; }
+.LinkSection:link { color: rgb(63,255,63); } .LinkSection:visited { color: rgb(0,255,0); } .LinkSection:hover { color: red; background-color: white; }
+.Article { 	width: 90%; padding: 5px; margin: 5px; 
+			min-width: 240px; max-width: 320px; 
+			display: inline-block; 
+			background-color: rgb(127,127,127);
+			border: 5px solid blue;
+			box-shadow: white 0px 0px 40px;
+			text-align: center;
+			vertical-align: top;
+			overflow: hidden;
+}
+.CurrentArticle {
+	background-color: rgba(64,64,64,0.8);
+	margin: 5px; 
+	vertical-align: top; 
+	border: solid 1px white; 
+	width: 98%; 
+	max-width: 380px; 
+	display: inline-block;
+	box-shadow: 0px 0px 10px blue;
+}
+.TitleArticle { color: rgb(64,255,64); text-align: center; }
+.ImageArticle { width: 90%; min-width: 220px; max-width: 440px; }
+.VideoArticle { width: 90%; min-width: 220px; max-width: 440px; }
+.LinkIcon { width: 28px; height: 28px; display: inline-block; vertical-align: bottom; }
+.TextTitleArticle { color: rgb(127,127,195); font-size: 5mm; text-align: center; }
+.TextArticle { color: white; font-size: 4mm; text-align: justify; vertical-align: top; }
+.LinkArticle { vertical-align: top; transition: all 1s linear; }
+.LinkArticle:link { color: rgb(255,196,64); } .LinkArticle:visited { color: rgb(255,196,0); } .LinkArticle:hover,.LinkArticle:focus { color: red; }
+.LinkArticleAbrebiate { vertical-align: top; transition: all 1s linear; }
+.LinkArticleAbrebiate:link { color: rgb(255,255,64); } .LinkArticleAbrebiate:visited { color: rgb(255,255,0); } .LinkArticleAbrebiate:hover,.LinkArticleAbrebiate:focus { color: red; }
+.ColorWhite { color: white; }
+.ColorRed { color: red; }
+.ColorBlueWhite { color: rgb(64,64,214); }
+.ColorGreenWhite { color: rgb(0,160,0); }
+.DisplayLineBlock { display: inline-block; }
+.TextAlignCenter {  text-align: center; }
+.TextAlignJustify {  text-align: justify; }
+.Size50x100 { width: 45%; }
+.TopVertical { vertical-align: top; }
+.Padding5px { padding: 5px; }

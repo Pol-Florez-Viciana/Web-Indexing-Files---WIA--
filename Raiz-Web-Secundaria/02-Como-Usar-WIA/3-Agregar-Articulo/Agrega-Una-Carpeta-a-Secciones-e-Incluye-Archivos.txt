@@ -1,0 +1,18 @@
+Agrega Una Carpeta a Cualquiera de las Carpetas de Sección e Incluye-le Archivos PDF, HTML, ZIP, etc...<br> 
+Esta Nueva Carpeta Tiene los Datos del Artículo y Hay Que Alojar Allí Los Archivos que Se Muestran en la Página.<br>
+Orden de Asignación de Titulos o Etiquetas H1,H2,H3,H4:<br>
+H1 = Titulo Que Le Asignamos a la Pagina que Contiene Las Raizes Web, que son las Carpetas Padre que Contienen Las Secciones Con los Artículos.<br>
+<br>
+H2 = Nombre de las Primeras Carpetas que Contiene la Carpeta Raíz, También Llamadas Secciones.<br>
+<br>
+H3 = Nombre de las Primeras Carpetas que Contienen las Secciones, También Llamadas Artículos.<br>
+<br>
+H4 = Archivo TXT con el Titulo Por Nombre de Archivo, y Su Contenido en Texto Es incluido Como Texto HTML dentro del Artículo, es decir, su contenido 
+se carga en formato que le asignes dentro de este, pudiendo incluir cualquier parte que necesites en html y php o javascript.<br>
+<br><br>
+PDF = Se Carga Como Enlace Hacia el Documento<br>
+Imagen = Se Carga Como Imagen de Artículo.<br>
+MP3 y MP4 = Se Cargan Como Vídeo del Artículo<br>
+ZIP = Lo Carga Como Archivo de Descarga<br>
+JS y CSS = Los Esconde de la Vista del Usuario<br>
+Todos los Demas = Son enlaces de descarga<br>

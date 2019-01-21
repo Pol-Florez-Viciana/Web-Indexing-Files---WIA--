@@ -52,6 +52,10 @@
 	const StringCinco = "5";
 	const Barra = "/";
 	const Guion = "-";
+	const CodeInterrogacion = "~8";
+	const CodeInterrogante = "~9";
+	const Interrogacion = "¿";
+	const Interrogante = "?";
 	const EspacioBlanco = " ";
 	const StringNulo = "";
 	const EstrellaEnabled = "./img/Estrella-Enabled.jpg";
@@ -92,7 +96,9 @@
 		$LongExtension = $ObjFileSys->StringsCount($Extension);
 		$LongExtension++;
 		$NameTemp = $ObjFileSys->StringsLeft($NameFile, $Long - $LongExtension );
-		$Name = $ObjFileSys->StringsReemplaceWords($NameTemp , Guion , EspacioBlanco );
+		$NameNoSpaces = $ObjFileSys->StringsReemplaceWords($NameTemp , Guion , EspacioBlanco );
+		$NameInterrogation = $ObjFileSys->StringsReemplaceWords($NameNoSpaces , CodeInterrogacion , Interrogacion );
+		$Name = $ObjFileSys->StringsReemplaceWords($NameInterrogation , CodeInterrogante  , Interrogante );
 		$Result = '<a href="' . $Dir . '" title="' . $Name . '" class="LinkSection" >' . $Name . '</a> ';
 		return $Result; 	
 	}
@@ -109,7 +115,9 @@
 		$LongExtension = $ObjFileSys->StringsCount($Extension);
 		$LongExtension++;
 		$NameTemp = $ObjFileSys->StringsLeft($NameFile, $Long - $LongExtension );
-		$Name = $ObjFileSys->StringsReemplaceWords($NameTemp , Guion , EspacioBlanco );
+		$NameNoSpaces = $ObjFileSys->StringsReemplaceWords($NameTemp , Guion , EspacioBlanco );
+		$NameInterrogation = $ObjFileSys->StringsReemplaceWords($NameNoSpaces , CodeInterrogacion , Interrogacion );
+		$Name = $ObjFileSys->StringsReemplaceWords($NameInterrogation , CodeInterrogante  , Interrogante );
 		if ( $Extension == FileHtml || $Extension == FilePhp ){
 			$NameTitlePage = $ObjFileSys->FileGetTitleHTML($Dir);
 			if ($NameTitlePage == StringNulo ){ $NameTitlePage = $NameFile; }
@@ -233,7 +241,10 @@
 				$Path = $ObjFileSys->FolderRepair($ListFolders[$SubMan]);
 				$TempNameFolder = $ObjFileSys->FileGetName($Path);
 				$NameFolder = $ObjFileSys->StringsReemplaceWords($TempNameFolder , EspacioBlanco , Guion );
-				$Name = $ObjFileSys->StringsReemplaceWords($NameFolder , Guion , EspacioBlanco );
+				$NameTemp = $ObjFileSys->StringsReemplaceWords($NameFolder , Guion , EspacioBlanco );
+				$NameNoSpaces = $ObjFileSys->StringsReemplaceWords($NameTemp , Guion , EspacioBlanco );
+				$NameInterrogation = $ObjFileSys->StringsReemplaceWords($NameNoSpaces , CodeInterrogacion , Interrogacion );
+				$Name = $ObjFileSys->StringsReemplaceWords($NameInterrogation , CodeInterrogante  , Interrogante );
 				$Result = $Result . '<div style="display: inline-block;" ><a class="LinkArticle" href="'  . $InPage . "#" . $NameFolder . '" >' . $Name . '</a></div> ';
 			}
 		}
@@ -252,7 +263,10 @@
 				$Path = $ObjFileSys->FolderRepair($ListFolders[$SubMan]);
 				$TempNameFolder = $ObjFileSys->FileGetName($Path);
 				$NameFolder = $ObjFileSys->StringsReemplaceWords($TempNameFolder , EspacioBlanco , Guion );
-				$Name = $ObjFileSys->StringsReemplaceWords($NameFolder , Guion , EspacioBlanco );
+				$NameTemp = $ObjFileSys->StringsReemplaceWords($NameFolder , Guion , EspacioBlanco );
+				$NameNoSpaces = $ObjFileSys->StringsReemplaceWords($NameTemp , Guion , EspacioBlanco );
+				$NameInterrogation = $ObjFileSys->StringsReemplaceWords($NameNoSpaces , CodeInterrogacion , Interrogacion );
+				$Name = $ObjFileSys->StringsReemplaceWords($NameInterrogation , CodeInterrogante  , Interrogante );
 				$Result = $Result . '<div><a class="LinkArticle" href="'  . $InPage . "#" . $NameFolder . '" >' . $Name . '</a></div>';
 			}
 		}
@@ -271,7 +285,10 @@
 				$Path = $ObjFileSys->FolderRepair($ListFolders[$SubMan]);
 				$TempNameFolder = $ObjFileSys->FileGetName($Path);
 				$NameFolder = $ObjFileSys->StringsReemplaceWords($TempNameFolder , EspacioBlanco , Guion );
-				$Name = $ObjFileSys->StringsReemplaceWords($NameFolder , Guion , EspacioBlanco );
+				$NameTemp = $ObjFileSys->StringsReemplaceWords($NameFolder , Guion , EspacioBlanco );
+				$NameNoSpaces = $ObjFileSys->StringsReemplaceWords($NameTemp , Guion , EspacioBlanco );
+				$NameInterrogation = $ObjFileSys->StringsReemplaceWords($NameNoSpaces , CodeInterrogacion , Interrogacion );
+				$Name = $ObjFileSys->StringsReemplaceWords($NameInterrogation , CodeInterrogante  , Interrogante );
 				$Result = $Result . '<a class="LinkArticle" href="'  . $InPage . "#" . $NameFolder . '" >' . '<div style="display: inline-block; pading: 2px; cursor: pointer; border: double 2px white; border-radius: 10px;" >' . GetFirstImageArticle($ListFolders[$SubMan]) . '<label class="LinkArticle" style="cursor: pointer;" >' . $Name . '</label></div></a> ';
 			}
 		}
@@ -290,7 +307,10 @@
 				$Path = $ObjFileSys->FolderRepair($ListFolders[$SubMan]);
 				$TempNameFolder = $ObjFileSys->FileGetName($Path);
 				$NameFolder = $ObjFileSys->StringsReemplaceWords($TempNameFolder , EspacioBlanco , Guion );
-				$Name = $ObjFileSys->StringsReemplaceWords($NameFolder , Guion , EspacioBlanco );
+				$NameTemp = $ObjFileSys->StringsReemplaceWords($NameFolder , Guion , EspacioBlanco );
+				$NameNoSpaces = $ObjFileSys->StringsReemplaceWords($NameTemp , Guion , EspacioBlanco );
+				$NameInterrogation = $ObjFileSys->StringsReemplaceWords($NameNoSpaces , CodeInterrogacion , Interrogacion );
+				$Name = $ObjFileSys->StringsReemplaceWords($NameInterrogation , CodeInterrogante  , Interrogante );
 				$Result = $Result . '<a class="LinkArticle" href="'  . $InPage . "#" . $NameFolder . '" >' . '<div style="border: double 2px white; pading: 2px; cursor: pointer; border-radius: 10px;" >' . GetFirstImageArticle($ListFolders[$SubMan]) . '<label class="LinkArticle" style="cursor: pointer;" >' . $Name . '</label></div></a><br>';
 			}
 		}
@@ -311,7 +331,9 @@
 				$Path = $ObjFileSys->FolderRepair($ListFolders[$SubMan]);
 				$TempNameFolder = $ObjFileSys->FileGetName($Path);
 				$NameFolder = $ObjFileSys->StringsReemplaceWords($TempNameFolder , EspacioBlanco , Guion );
-				$Name = $ObjFileSys->StringsReemplaceWords($NameFolder , Guion , EspacioBlanco );
+				$NameNoSpaces = $ObjFileSys->StringsReemplaceWords($NameFolder , Guion , EspacioBlanco );
+				$NameInterrogation = $ObjFileSys->StringsReemplaceWords($NameNoSpaces , CodeInterrogacion , Interrogacion );
+				$Name = $ObjFileSys->StringsReemplaceWords($NameInterrogation , CodeInterrogante  , Interrogante );
 				//$fecha1 = date("Y/m/d H:i:s");
 				$fecha2 = date(EtiquetasTiempo1,filemtime($ListFolders[$SubMan] . Barra));
 				$VarDia = date(EtiquetasTiempo2,filemtime($ListFolders[$SubMan] . Barra));
@@ -343,6 +365,9 @@
 		for ($SubMan = Cero; $SubMan < count($ListFolders); $SubMan++ ) {
 			$Path = $ListFolders[$SubMan];
 			$NameFile = $ObjFileSys->FileGetName($Path);
+			$NameNoSpaces = $ObjFileSys->StringsReemplaceWords($NameFile , Guion , EspacioBlanco );
+			$NameInterrogation = $ObjFileSys->StringsReemplaceWords($NameNoSpaces , CodeInterrogacion , Interrogacion );
+			$Name = $ObjFileSys->StringsReemplaceWords($NameInterrogation , CodeInterrogante  , Interrogante );
 			$Extension = $ObjFileSys->FileExtensionName($Path);
 			$Long = $ObjFileSys->StringsCount($Path);
 			$ResultFunction = GetFilesDirectory($Path,true,false);
@@ -352,7 +377,7 @@
 				if ( $ObjFileSys->FileExist(DirValorations . $NameTemporal . DirExtensionTxt ) == false ){
 					$Long = $ObjFileSys->StringsCount($Path) - $ObjFileSys->StringsCount($Dir);
 					$NameTemp = $ObjFileSys->StringsRight($Path, $Long);
-					$Name = $ObjFileSys->StringsReemplaceWords($NameTemp , Guion , EspacioBlanco );
+					//$Name = $ObjFileSys->StringsReemplaceWords($NameTemp , Guion , EspacioBlanco );
 					$Result = $Result . '<article id="' . $NameTemp . '" class="Article"><br><br><hr><br><h3 class="TitleArticle">' . GetIcon('./img/Articulo.png') . $Name . '</h3><br><hr><br>' . $ResultFunction . '</article>';
 				}else{
 					$Valoracion = StringNulo . $ObjFileSys->FileRead(DirValorations . $NameTemporal . DirExtensionTxt,Cero);
@@ -396,7 +421,10 @@
 			for ($Man = Cero; $Man < count($ListadoSubDirectorios); $Man++ ) {
 				$NombreDirectorio = $ObjFileSys->FileGetName($ListadoSubDirectorios[$Man]);
 				$IdNombre = $ObjFileSys->StringsReemplaceWords($NombreDirectorio , EspacioBlanco , Guion );
-				$Nombre = $ObjFileSys->StringsReemplaceWords($NombreDirectorio , Guion , EspacioBlanco );
+				$NombreTemp = $ObjFileSys->StringsReemplaceWords($NombreDirectorio , Guion , EspacioBlanco );
+				$NameNoSpaces = $ObjFileSys->StringsReemplaceWords($NombreTemp , Guion , EspacioBlanco );
+				$NameInterrogation = $ObjFileSys->StringsReemplaceWords($NameNoSpaces , CodeInterrogacion , Interrogacion );
+				$Nombre = $ObjFileSys->StringsReemplaceWords($NameInterrogation , CodeInterrogante  , Interrogante );
 				$Resultado = $Resultado . '<div class="DisplayLineBlock Padding5px"><a class="LinkSection" href="' . $InPage . '#' . $IdNombre . '" >' . $Nombre . '</a></div> ';
 			}
 		}
@@ -411,7 +439,11 @@
 			for ($Man = Cero; $Man < count($ListadoSubDirectorios); $Man++ ) {
 				$NombreDirectorio = $ObjFileSys->FileGetName($ListadoSubDirectorios[$Man]);
 				$IdNombre = $ObjFileSys->StringsReemplaceWords($NombreDirectorio , EspacioBlanco , Guion );
-				$Nombre = $ObjFileSys->StringsReemplaceWords($NombreDirectorio , Guion , EspacioBlanco );
+				$NombreTemp = $ObjFileSys->StringsReemplaceWords($NombreDirectorio , Guion , EspacioBlanco );
+				$NameTemp = $ObjFileSys->StringsReemplaceWords($NombreTemp , Guion , EspacioBlanco );
+				$NameNoSpaces = $ObjFileSys->StringsReemplaceWords($NameTemp , Guion , EspacioBlanco );
+				$NameInterrogation = $ObjFileSys->StringsReemplaceWords($NameNoSpaces , CodeInterrogacion , Interrogacion );
+				$Nombre = $ObjFileSys->StringsReemplaceWords($NameInterrogation , CodeInterrogante  , Interrogante );
 				$Resultado = $Resultado . '<div class="Padding5px"><a class="LinkSection" href="' . $InPage . '#' . $IdNombre . '" >' . $Nombre . '</a></div>';
 			}
 		}
@@ -425,7 +457,9 @@
 		if (count($ListadoSubDirectorios) > Cero){
 			for ($Man = Cero; $Man < count($ListadoSubDirectorios); $Man++ ) {
 				$NombreDirectorio = $ObjFileSys->FileGetName($ListadoSubDirectorios[$Man]);
-				$Nombre = $ObjFileSys->StringsReemplaceWords($NombreDirectorio , Guion , EspacioBlanco );
+				$NombreTemp = $ObjFileSys->StringsReemplaceWords($NombreDirectorio , Guion , EspacioBlanco );
+				$NameInterrogation = $ObjFileSys->StringsReemplaceWords($NombreTemp , CodeInterrogacion , Interrogacion );
+				$Nombre = $ObjFileSys->StringsReemplaceWords($NameInterrogation , CodeInterrogante  , Interrogante );
 				$IdNombre = $ObjFileSys->StringsReemplaceWords($NombreDirectorio , EspacioBlanco , Guion );
 				$Resultado = $Resultado . '<section id="'. $IdNombre .'" class="Section"><hr><hr><br><br><br><hr><hr><br>';
 				$NewDir = $ListadoSubDirectorios[$Man];

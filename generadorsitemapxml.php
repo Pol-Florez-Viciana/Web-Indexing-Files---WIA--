@@ -31,14 +31,10 @@
 	<h1 class="WebTitle">Generador de Mapa del Sitio - Mapa del Sitio</h1>
 	
 	<?php 
-		$Dir = "./Raiz-Principal/";
-		$FileName = "sitemapprincipal.xml";
-		WriteDataSiteMapForXML($Dir,$FileName);
-		$Dir = "./Raiz-Secundaria/";
-		$FileName = "sitemapsecundario.xml";
-		WriteDataSiteMapForXML($Dir,$FileName);
-	?>
-		
+		$Dirs = array("./Raiz-Web-Aplicaciones/","./Raiz-Web-Noticias/","./Raiz-Web-Principal/","./Raiz-Web-Secundaria/");
+		$FileName = "sitemaptuweb.xml";
+		WriteDataSiteMapForXML($Dirs,$FileName);
+	?>	
 </center>
 </body>
 </html>

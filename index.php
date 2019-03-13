@@ -165,12 +165,27 @@ if (!isset($_COOKIE["Acepto"])){
 				<section class="ColorWhite TextAlignJustify" style="display: inline-block; vertical-align: top; min-width: 200px; width: 42%;">	
 					<!-- Este DIV Contiene Todos los Links de Secciones ( Uno Horizontal y los Demás en Vertical ) -->
 					<div style="color: white; background-color: rgba(0,0,32,0.7); padding: 5px;">
-						<label class="ColorRed">Todos los Artículos de Aplicaciones:</label><br>
+						<label class="ColorRed">Uso de GetListArticles Sobre Aplicaciones:</label><br>
 						<?php 
 							$Dir = "./Raiz-Web-Aplicaciones/"; // Esta es la Dirección de la Carpeta Raíz Musica
 							$MisSecciones = GetListArticles($Dir,"aplicaciones.php"); // Cargo La Sección Asociada a esta Carpeta Esta Ubicada en musica.php en la Variable 
 							echo($MisSecciones); // Y las Escribo a esta Parte de la Página
 						?>
+						<br><br>
+						<label class="ColorRed">Uso de GetListIconArticles Sobre Aplicaciones:</label><br>
+						<?php 
+							$Dir = "./Raiz-Web-Aplicaciones/"; // Esta es la Dirección de la Carpeta Raíz Musica
+							$MisSecciones = GetListIconArticles($Dir,"aplicaciones.php"); // Cargo La Sección Asociada a esta Carpeta Esta Ubicada en musica.php en la Variable 
+							echo($MisSecciones); // Y las Escribo a esta Parte de la Página
+						?>
+						<br><br>
+						<label class="ColorRed">Uso de GetListReportArticles Sobre Aplicaciones:</label><br>
+						<?php 
+							$Dir = "./Raiz-Web-Aplicaciones/"; // Esta es la Dirección de la Carpeta Raíz Musica
+							$MisSecciones = GetListReportArticles($Dir,"aplicaciones.php"); // Cargo La Sección Asociada a esta Carpeta Esta Ubicada en musica.php en la Variable 
+							echo($MisSecciones); // Y las Escribo a esta Parte de la Página
+						?>
+						<br><br>
 						<br><br>
 						<label class="ColorRed">Todos los Artículos de Noticias:</label><br>
 						<?php 

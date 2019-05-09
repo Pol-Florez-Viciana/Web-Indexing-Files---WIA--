@@ -7,11 +7,11 @@
 	// Aquí se Configura el Tipo de Protocolo Usado por la Web ( http:// o https:// )
 	const TypeProtocol = "http://";
 	// Aquí Se Configura el Número de los Dias Anteriores que se Muestran en Actualizados Recientemente 
-	const DaysCurrentList = 90;
+	const DaysCurrentList = 60;
 	// Aquí Se Configura el Número de Articulos Maximos Cada Vez que se Llama a la Función GetCurrentArticles();
-	const MaxCountCurrentList = 12;
+	const MaxCountCurrentList = 6;
 	// Aquí Se Configura el Número de Articulos Maximos Cada Vez que se Llama a la Función SearchInSections();
-	const MaxCountSearchList = 15;
+	const MaxCountSearchList = 50;
 	// *********************************************************************************************************	
 	// Funciones para la Utilización del Módulo: 	
 	// $Dir = Dirección de Carpeta Raíz Escogida 
@@ -294,7 +294,7 @@
 				$fecha2 = date(EtiquetasTiempo1,filemtime($ListFolders[$SubMan] . Barra));
 				$VarDia = date(EtiquetasTiempo2,filemtime($ListFolders[$SubMan] . Barra));
 				$fecha3 = $ObjFileSys->GetTextoDiaSemana( $VarDia );
-				$Result = $Result . '<a class="LinkArticle" href="'  . $InPage . "#" . $NameFolder . '" >' . '<div style="background-color: rgb(32,32,32); width: 90%; max-width: 320px; display: inline-block; pading: 2px; cursor: pointer; border: double 2px white; border-radius: 10px; font-size: 5mm;" ><p style="cursor: pointer; color: red; text-align: left; font-size: 3.5mm;" >' . $fecha2 . ' , ' . $fecha3 . '</p><p style="cursor: pointer; color: blue; text-align: center;" >' . $Name . '</p><br><p style="cursor: pointer; color: white;" >' . GetFirstTitleTextDirectory($ListFolders[$SubMan]) . '<br>' . GetFirstLinksDirectory($ListFolders[$SubMan]) . '<br><br><p style="text-align: center;" >' . GetFirstImagesDirectory($ListFolders[$SubMan]) . '</p></p></div></a> ';
+				$Result = $Result . '<a id="' . $NameFolder . '" href="'  . $InPage . "#" . $NameFolder . '" ><div style="vertical-align: top; background-color: rgb(32,32,32); width: 90%; max-width: 320px; display: inline-block; padding: 2px; cursor: pointer; border: double 2px white; border-radius: 10px; font-size: 5mm;" ><br><p style="cursor: pointer; color: red; text-align: left; font-size: 3.5mm;" >' . $fecha2 . ' , ' . $fecha3 . '</p><br><h4 style="cursor: pointer; color: blue; text-align: center;" >' . $Name . ' <label style="color: yellow; font-size: 3.5mm;">Ver Más</label></h4><div style="cursor: pointer; color: white;" >' . GetFirstTitleTextDirectory($ListFolders[$SubMan]) . '<br><br></div><p style="text-align: center;" >' . GetFirstImagesDirectory($ListFolders[$SubMan]) . '</p></div></a> ';
 			}
 		}
 		return $Result;
@@ -369,7 +369,7 @@
 				$interval = strtotime(Ahora) - strtotime($fecha2);
 				$DaysInterval = SegundosDia * DaysCurrentList; 
 				If ($interval < $DaysInterval){
-					$ListadoRecolecta[$Cuenta] = '<div class="CurrentArticle"><label style="color: rgb(255,64,64);">' . $fecha2 . ' , ' . $fecha3 . ' </label><br><label style="vertical-align: top;">'  . GetLinkCurrentSection( $InPage . "#" . $NameFolder, $Name) . '</label><br>' . GetFirstTitleTextDirectory($ListFolders[$SubMan]) . '<br>' . GetFirstLinksDirectory($ListFolders[$SubMan]) . '<br><br><p style="text-align: center;" >' . GetFirstImagesDirectory($ListFolders[$SubMan]) . '</p></div>';
+					$ListadoRecolecta[$Cuenta] = '<div class="CurrentArticle"><p style="color: rgb(255,64,64); text-align: left;">' . $fecha2 . ' , ' . $fecha3 . ' </p><label style="vertical-align: top;">'  . GetLinkCurrentSection( $InPage . "#" . $NameFolder, $Name) . '</label><br>' . GetFirstTitleTextDirectory($ListFolders[$SubMan]) . '<br>' . GetFirstLinksDirectory($ListFolders[$SubMan]) . '<br><br><p style="text-align: center;" >' . GetFirstImagesDirectory($ListFolders[$SubMan]) . '</p></div>';
 					$Cuenta++;
 					//$ArticlesCount = $ArticlesCount + Uno;
 				}			
@@ -520,7 +520,7 @@
 						$ResultFunctionMinusculas = $ObjFileSys->StringsAllLower($ResultFunction);
 						if ($ObjFileSys->StringsWordCount($NameMinusculas,$TextoABuscar) > 0 || $ObjFileSys->StringsWordCount($ResultFunctionMinusculas,$TextoABuscar) > 0){
 							$CodigoImagen = GetFirstImageArticle($ListFolders[$SubMan]);
-							$Resultado = $Resultado . '<a class="LinkArticle" href="'  . $InPages[$i] . "#" . $NameFolder . '" >' . '<div style="display: inline-block; border: double 2px white; pading: 2px; cursor: pointer; border-radius: 10px;" >' . $CodigoImagen . '<label class="LinkArticle" style="cursor: pointer;" >' . $Name . '</label></div></a><br><br>';
+							$Resultado = $Resultado . '<a class="LinkArticle" href="'  . $InPages[$i] . "#" . $NameFolder . '" >' . '<div style="display: inline-block; border: double 2px white; padding: 5px; cursor: pointer; border-radius: 10px; font-size: 7mm;" >' . $CodigoImagen . '<label class="LinkArticle" style="cursor: pointer; font-size: 6mm;" >' . $Name . '</label></div></a><br><br>';
 								$Contador++;
 							if ($Contador >= MaxCountSearchList ) {
 								break;
@@ -579,8 +579,8 @@
 					$LongExtension++;
 					$NameTemp = $ObjFileSys->StringsLeft($NameFile, $Long - $LongExtension );
 					$Name = $ObjFileSys->StringsReemplaceWords($NameTemp , Guion , EspacioBlanco );
-					//$ContenFile = $ObjFileSys->FileRead($NewDir, filesize($NewDir) );
-					$Result = '<label style="color: white;">' . $Name . '</label>';
+					//$ContenFile = $ObjFileSys->FileRead($ListFiles[$Man],0);
+					$Result = '<h4 style="color: white;">' . $Name . '</h4>';
 					break;	
 				}
 			}
@@ -655,8 +655,8 @@
 								$LongExtension++;
 								$NameTemp = $ObjFileSys->StringsLeft($NameFile, $Long - $LongExtension );
 								$Name = $ObjFileSys->StringsReemplaceWords($NameTemp , Guion , EspacioBlanco );
-								$ContenFile = $ObjFileSys->FileRead($NewDir, filesize($NewDir) );
-								$Result = $Result . '<br><br><h5 class="TextTitleArticle">' . $Name . '</h5><div class="TextArticle" >' . $ContenFile . '</div><br>'; 
+								$ContenFile = $ObjFileSys->FileRead($NewDir,Cero);
+								$Result = $Result . '<br><br><h5 class="TextTitleArticle">' . $Name . '</h5><center><div class="TextArticle" >' . $ContenFile . '</div></center><br>'; 
 							//}else{
 								//$Long = $ObjFileSys->StringsCount($NameFile);
 								//$LongExtension = $ObjFileSys->StringsCount($ObjFileSys->FileExtensionName($NewDir));

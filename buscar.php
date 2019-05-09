@@ -124,34 +124,30 @@ if (!isset($_COOKIE["Acepto"])){
 				$MiSection = SearchInSections($Dirs,$InPages,$_POST["Search"]);
 				// Y Ponemos Los Resultados
 				if ($MiSection == ""){
+					// Formulario Para el Buscador
+					echo('<form action="buscar.php" method="POST"  style="display: inline-block;" >');
+					echo('<input style="display: inline-block; font-size: 7mm; width: 70%;" id="Search" name="Search" type="text" value="' . $_POST["Search"] . '" placeholder="Introduzca el Termino..." />');
+					echo('<input style="display: inline-block; font-size: 7mm;" id="submit" type="submit" value="Buscar" />');
+					echo('</form> ');
 					echo ('<br><label style="font-size: 8mm; color: white;">No Hay Resultados de Busqueda Para ' . $_POST["Search"] . '...</label>');
 				}else{
+					// Formulario Para el Buscador
+					echo('<form action="buscar.php" method="POST"  style="display: inline-block;" >');
+					echo('<input style="display: inline-block; font-size: 7mm; width: 70%;" id="Search" name="Search" type="text" value="' . $_POST["Search"] . '" placeholder="Introduzca el Termino..." />');
+					echo('<input style="display: inline-block; font-size: 7mm;" id="submit" type="submit" value="Buscar" />');
+					echo('</form> ');
 					echo "<br>" . $MiSection;	
 				}
-				
 			}else{
-				echo ('<br><label style="font-size: 8mm; color: white;">No Hay Texto a Buscar...</label>');
+				// Formulario Para el Buscador
+				echo('<form action="buscar.php" method="POST"  style="display: inline-block;" >');
+				echo('<input style="display: inline-block; font-size: 7mm; width: 70%;" id="Search" name="Search" type="text" value="" placeholder="Introduzca el Termino..." />');
+				echo('<input style="display: inline-block; font-size: 7mm;" id="submit" type="submit" value="Buscar" />');
+				echo('</form> ');
 			}
 		?>
 	</section>
-
-	<br><br>
-
-	<nav id="Creditos" class="Section Menu-Inferior" >
-		<hr>
-		<h2 class="TitleSection">Enlaces Sobre Intereses del Autor</h2> 
-		<hr>
-		<div>
-			<?php
-				$Dir = "./Creditos/";
-				$MiNav = GetFilesDirectory($Dir,false,false);
-				echo $MiNav;
-			?>
-		</div>
-		<hr>
-		<h2 class="ColorRed">Quedan Todos los Derechos Reservados.</h2>
-		<hr>
-	</nav>	
+	<br><br><br><br>	
 </center>
 </body>
 </html>

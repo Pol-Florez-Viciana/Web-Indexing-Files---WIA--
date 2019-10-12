@@ -5,12 +5,17 @@
  * author Pol Florez Viciana
  */
 class ObjectFileSystem {
-	public $Dia = 1;
-	public $Mes = 1;
+	const Cero = 0;
+	const Uno = 1;
+	const Dos = 2;
+	const Punto = ".";
+	const StringNulo = "";
+	public $Dia = Uno;
+	public $Mes = Uno;
 	public $Ano = 2018;
-	public $Hora = 0;
-	public $Minuto = 0;
-	public $Segundo = 0;
+	public $Hora = Cero;
+	public $Minuto = Cero;
+	public $Segundo = Cero;
 	function __construct(){
 		$this->CapturarHora();
 	}
@@ -27,8 +32,8 @@ class ObjectFileSystem {
 		$this->Segundo = date("s");
 	}
     public function FileExtensionName($FilePath){
-        $ArchivoExtension = "";
-        if ($this->StringsWordCount($FilePath, ".") > 0 ){
+        $ArchivoExtension = StringNulo;
+        if ($this->StringsWordCount($FilePath,".") > Cero ){
             $Tempo = $this->StringsToPositionWordRight($FilePath,".",false);
             $ArchivoExtension = $this->StringsRight($Tempo, $this->StringsCount($Tempo) -1 );
         }
@@ -36,59 +41,61 @@ class ObjectFileSystem {
     }
     public function FolderFilesSize($FolderPath){
         $Listado = $this->FolderFilesNamesSORT($FolderPath);
-        $Man = 0;
-        $Cuenta = 0;
-        if (count($Listado) > 0){
-            for ($Man = 0; $Man < count($Listado); $Man++ ) {
+        $Man = Cero;
+        $Cuenta = Cero;
+        if (count($Listado) > Cero){
+            for ($Man = Cero; $Man < count($Listado); $Man++ ) {
                 $Cuenta = $Cuenta + $this->FileTextCount( $FolderPath . $Listado[$Man]);
             }
         }
         return $Cuenta;
     }
     public function StringBytes($TamanoenBytes){
+		$MilVeintiCuatro = 1024;
         $NumBytes = $TamanoenBytes;
-        $NumKiloBytes = 0;
-        $NumMegaBytes = 0;
-        $NumGigaBytes = 0;
-        $TextoRetorno = "";
-		if ($NumBytes < 1024){
+        $NumKiloBytes = Cero;
+        $NumMegaBytes = Cero;
+        $NumGigaBytes = Cero;
+        $TextoRetorno = StringNulo;
+		if ($NumBytes < MilVeintiCuatro){
             //$NumKiloBytes = $NumBytes / 1024;
             $TextoRetorno = $NumBytes . ' Bytes';
         }
-        if ($NumBytes > 1024){
-            $NumKiloBytes = $NumBytes / 1024;
-            $TextoRetorno = number_format($NumKiloBytes, 2,',','') . ' Bytes^2';
+        if ($NumBytes > $MilVeintiCuatro){
+            $NumKiloBytes = $NumBytes / $MilVeintiCuatro;
+            $TextoRetorno = number_format($NumKiloBytes, Dos,',','') . ' Bytes^2';
         }
-        if ($NumKiloBytes > 1024){
-            $NumMegaBytes = $NumKiloBytes / 1024;
-            $TextoRetorno = number_format($NumMegaBytes, 2, ',','') . ' Bytes^3';
+        if ($NumKiloBytes > $MilVeintiCuatro){
+            $NumMegaBytes = $NumKiloBytes / $MilVeintiCuatro;
+            $TextoRetorno = number_format($NumMegaBytes, Dos, ',','') . ' Bytes^3';
         }
-        if ($NumMegaBytes > 1024){
-            $NumGigaBytes = $NumMegaBytes / 1024;
-            $TextoRetorno = number_format($NumGigaBytes, 2, ',','') . ' Bytes^4';
+        if ($NumMegaBytes > $MilVeintiCuatro){
+            $NumGigaBytes = $NumMegaBytes / $MilVeitiCuatro;
+            $TextoRetorno = number_format($NumGigaBytes, Dos, ',','') . ' Bytes^4';
         }
          return $TextoRetorno; 
     }
     public function FileSizeBytes($FilePath){
+		$MilVeintiCuatro = 1024;
         $NumBytes = filesize($FilePath);
-        $NumKiloBytes = 0;
-        $NumMegaBytes = 0;
-        $NumGigaBytes = 0;
-        $TextoRetorno = "";
-        if ($NumBytes < 1024){
+        $NumKiloBytes = Cero;
+        $NumMegaBytes = Cero;
+        $NumGigaBytes = Cero;
+        $TextoRetorno = StringNulo;
+        if ($NumBytes < $MilVeintiCuatro){
             $TextoRetorno = $NumBytes . ' Bytes';
         }
-        if ($NumBytes > 1024){
-            $NumKiloBytes = $NumBytes / 1024;
-            $TextoRetorno = number_format($NumKiloBytes, 2,',','') . ' Bytes^2';
+        if ($NumBytes > $MilVeintiCuatro){
+            $NumKiloBytes = $NumBytes / $MilVeintiCuatro;
+            $TextoRetorno = number_format($NumKiloBytes, Dos,',','') . ' Bytes^2';
         }
-        if ($NumKiloBytes > 1024){
-            $NumMegaBytes = $NumKiloBytes / 1024;
-            $TextoRetorno = number_format($NumMegaBytes, 2, ',','') . ' Bytes^3';
+        if ($NumKiloBytes > $MilVeintiCuatro){
+            $NumMegaBytes = $NumKiloBytes / $MilVeintiCuatro;
+            $TextoRetorno = number_format($NumMegaBytes, Dos, ',','') . ' Bytes^3';
         }
-        if ($NumMegaBytes > 1024){
-            $NumGigaBytes = $NumMegaBytes / 1024;
-            $TextoRetorno = number_format($NumGigaBytes, 2, ',','') . ' Bytes^4';
+        if ($NumMegaBytes > $MilVeintiCuatro){
+            $NumGigaBytes = $NumMegaBytes / $MilVeintiCuatro;
+            $TextoRetorno = number_format($NumGigaBytes, Dos, ',','') . ' Bytes^4';
         }
          return $TextoRetorno; 
     }
@@ -105,15 +112,15 @@ class ObjectFileSystem {
         return file_exists($FilePath);
     }
     public function FileRead($FilePath,$FileLenght){
-        $Datos = "";
-		if ($FileLenght <= 0 ){
+        $Datos = StringNulo;
+		if ($FileLenght <= Cero ){
             $Temporal = filesize($FilePath);
-            if ($Temporal != 0 ){
+            if ($Temporal != Cero ){
 				$MyFile = fopen($FilePath, "r");
 				$Datos = fread($MyFile,$Temporal );
 				fclose($MyFile);
 			}else{
-				$Datos = "";
+				$Datos = StringNulo;
 			}
         }else{
             if ($FileLenght >= filesize($FilePath)){ 
@@ -144,7 +151,7 @@ class ObjectFileSystem {
             exit();
         }else{
             $X = rename($FilePath,$NewFilePathName);
-            if ($X == 1){
+            if ($X == Uno){
                 return true; 
             }else{
                 return false;
@@ -160,13 +167,13 @@ class ObjectFileSystem {
     }
     public function FileFreeFilePath($FolderPath,$FreeName,$Extension){
         //$Retorno = tempnam($FolderPath,$FreeName);
-        if ($Extension == ""){ exit(); }
-        if ($FreeName == ""){ exit(); }
-        if ($FolderPath == "" or $this->FolderExist($FolderPath) == false){ exit(); }
-        $FilePath = $this->FolderRepair($FolderPath) . $FreeName . "." . $Extension;
-        $Contador = 0;
+        if ($Extension == StringNulo){ exit(); }
+        if ($FreeName == StringNulo){ exit(); }
+        if ($FolderPath == StringNulo or $this->FolderExist($FolderPath) == false){ exit(); }
+        $FilePath = $this->FolderRepair($FolderPath) . $FreeName . Punto . $Extension;
+        $Contador = Cero;
         while($this->FileExist($FilePath) == true){
-            $FilePath = $this->FolderRepair($FolderPath) . $FreeName . $Contador . "." . $Extension;
+            $FilePath = $this->FolderRepair($FolderPath) . $FreeName . $Contador . Punto . $Extension;
             $Contador++;
         }
         $Retorno = $FilePath;
@@ -175,10 +182,10 @@ class ObjectFileSystem {
 	public function FileGetTitleHTML($FilePath){
 		if ( $this->FileExist($FilePath) == false ){ exit(); }
 		if ( $this->FileExtensionName($FilePath) != "html" && $this->FileExtensionName($FilePath) != "php" ){ exit(); }	
-		$Original = "";
+		$Original = StringNulo;
 		$Titulo = $this->FileGetName($FilePath);
 		$Original = $this->FileRead($FilePath , 10000 );
-		if ( $Original != "" ){ 
+		if ( $Original != StringNulo ){ 
 			if ( $this->StringsExistWord($Original , "<title>" ) != false || $this->StringsExistWord($Original , "</title>" ) != false ){ 
 				$Encabezado = $this->StringsToPositionWordLeft($Original , "</title>" , true );
 				$Titulo = $this->StringsToPositionWordRight($Encabezado , "<title>" , true );
@@ -189,13 +196,13 @@ class ObjectFileSystem {
 	public function FileGetDescriptionHTML($FilePath){
 		if ( $this->FileExist($FilePath) == false ){ exit(); }
 		if ( $this->FileExtensionName($FilePath) != "html" && $this->FileExtensionName($FilePath) != "php" ){ exit(); }	
-		$Original = "";
-		$DescripcionPagina = "";
+		$Original = StringNulo;
+		$DescripcionPagina = StringNulo;
 		$Original = $this->FileRead($FilePath , 10000 );
-		if ( $Original != "" ){ 
+		if ( $Original != StringNulo ){ 
 			if ( $this->StringsExistWord($Original , '<meta name="description"' ) != false || $this->StringsExistWord($Original , "/>" ) != false ){ 
 				$Encabezado = $this->StringsToPositionWordRight($Original , '<meta name="description" content="' , true );
-				if ( $Encabezado != "" ){ 
+				if ( $Encabezado != StringNulo ){ 
 					$LongEncabezado = $this->StringsCount($Encabezado);
 					$LongOriginal = $this->StringsCount($Original);
 					$SubEncabezado = $this->StringsToPositionWordLeft($Encabezado , '<meta name="description" content="' , true );
@@ -216,24 +223,24 @@ class ObjectFileSystem {
 	}
 	// Y aqui con las funciones de Carpetas
     public function FolderRepair($FolderPath){
-        if ($this->StringsRight($FolderPath, 1) == "/"){
+        if ($this->StringsRight($FolderPath, Uno) == "/"){
             return $FolderPath;
         }else{
             return $FolderPath . "/";
         }
     }
     public function FolderRepairRoot($FolderPath){
-        if ($this->StringsLeft($FolderPath, 1) == "."){
+        if ($this->StringsLeft($FolderPath, Uno) == "."){
             return $FolderPath;
         }else{
-            return $FolderPath . ".";
+            return $FolderPath . Punto;
         }
     }
     public function FolderCreateReadFolder($FolderPath){
         mkdir($FolderPath,4,false,null);
     }
     public function FolderCreateWriteFolder($FolderPath){
-        mkdir($FolderPath,2,false,null);
+        mkdir($FolderPath,Dos,false,null);
     }
     public function FolderExist($FolderPath){
         return is_dir($FolderPath);
@@ -242,7 +249,7 @@ class ObjectFileSystem {
         rmdir($FolderPath);
     }
     public function FolderFilesCount($FolderPath){
-        $Retorno = 0; 
+        $Retorno = Cero; 
         if ($Datos = opendir($FolderPath)){
             while (($file = readdir($Datos)) !== false){
 				$Temporal = $FolderPath . $file;
@@ -296,7 +303,7 @@ class ObjectFileSystem {
         if ($Datos = opendir($FolderPath)){
             $Retorno = array();
             while (($file = readdir($Datos)) !== false){
-                if ( $this->StringsLeft($file, 1) != "." ){
+                if ( $this->StringsLeft($file, Uno) != "." ){
                     $Temporal = $this->FolderRepair($FolderPath) . $file;
                     if ($this->FolderExist($Temporal) == true){
                         $Retorno[] = $Temporal;
@@ -312,7 +319,7 @@ class ObjectFileSystem {
         if ($Datos = opendir($FolderPath)){
             $Retorno = array();
             while (($file = readdir($Datos)) !== false){
-                if ( $this->StringsLeft($file, 1) != "." ){
+                if ( $this->StringsLeft($file, Uno) != "." ){
                     $Temporal = $FolderPath . $file;
                     if ($this->FolderExist($Temporal) == false){
                         $Retorno[] = $file;
@@ -328,7 +335,7 @@ class ObjectFileSystem {
         if ($Datos = opendir($FolderPath)){
             $Retorno = array();
             while (($file = readdir($Datos)) !== false){
-                if ( $this->StringsLeft($file, 1) != "." ){
+                if ( $this->StringsLeft($file, Uno) != "." ){
                     $Temporal = $FolderPath . $file;
                     if ($this->FolderExist($Temporal) == false){
                         $Retorno[] = $Temporal;
@@ -343,7 +350,7 @@ class ObjectFileSystem {
         if ($Datos = opendir($FolderPath)){
             $Retorno = array();
             while (($file = readdir($Datos)) !== false){
-                if ( $this->StringsLeft($file, 1) != "." ){
+                if ( $this->StringsLeft($file, Uno) != "." ){
                     $Temporal = $FolderPath . $file;
                     if ($this->FolderExist($Temporal) == true){
                         $Retorno[] = $FolderPath . $file;
@@ -358,7 +365,7 @@ class ObjectFileSystem {
         if ($Datos = opendir($FolderPath)){
             $Retorno = array();
             while (($file = readdir($Datos)) !== false){
-                if ( $this->StringsLeft($file, 1) != "." ){
+                if ( $this->StringsLeft($file, Uno) != "." ){
                     $Temporal = $FolderPath . $file;
                     if ($this->FolderExist($Temporal) == true){
                         $Retorno[] = $file;
@@ -369,10 +376,10 @@ class ObjectFileSystem {
         return $Retorno;
     }
     public function FolderSubFoldersCount($FolderPath){
-        $Retorno = 0; 
+        $Retorno = Cero; 
         if ($Datos = opendir($FolderPath)){
             while (($file = readdir($Datos)) !== false){
-                if ( $this->StringsLeft($file, 1) != "." ){
+                if ( $this->StringsLeft($file, Uno) != "." ){
                     $Temporal = $FolderPath . $file;
                     if ($this->FolderExist($Temporal) == true){
                         $Retorno++;
@@ -385,7 +392,7 @@ class ObjectFileSystem {
 	public function FolderExistFileNameIntoFolder($FolderPath,$FileName){
 		$Archivos = $this->FolderFiles($FolderPath);
 		$Respuesta = false;
-		for ($Man = 0; $Man < count($Archivos); $Man++ ) {
+		for ($Man = Cero; $Man < count($Archivos); $Man++ ) {
 			if ( $this->FileGetName($Archivos[$Man]) == $FileName ){
 				$Respuesta = true; 
 			} 
@@ -395,7 +402,7 @@ class ObjectFileSystem {
 	public function FolderExistFileExtensionIntoFolder($FolderPath,$FileExtension){
 		$Archivos = $this->FolderFiles($FolderPath);
 		$Respuesta = false;
-		for ($Man = 0; $Man < count($Archivos); $Man++ ) {
+		for ($Man = Cero; $Man < count($Archivos); $Man++ ) {
 			if ( $this->FileGetExtensionName($Archivos[$Man]) == $FileExtension ){
 				$Respuesta = true; 
 			} 
@@ -403,11 +410,11 @@ class ObjectFileSystem {
 		return $Respuesta;
 	}
     public function StringsLeft( $Cadena , $NumStrings ){
-        if (strlen($Cadena) != 0 and $NumStrings > 0 and $NumStrings < strlen($Cadena) ){
+        if (strlen($Cadena) != Cero and $NumStrings > Cero and $NumStrings < strlen($Cadena) ){
             if ($NumStrings == strlen($Cadena) ){
                 return $Cadena;    
             }else{
-                $VarResult = substr($Cadena, 0, $NumStrings);
+                $VarResult = substr($Cadena, Cero, $NumStrings);
 				return $VarResult;
             }
         }else{
@@ -415,12 +422,12 @@ class ObjectFileSystem {
         }    
     }
     public function StringsRight( $Cadena , $NumStrings ){
-        if (strlen($Cadena) != 0 and $NumStrings > 0 and $NumStrings < strlen($Cadena) ){
+        if (strlen($Cadena) != Cero and $NumStrings > Cero and $NumStrings < strlen($Cadena) ){
             if ($NumStrings == strlen($Cadena) ){
                 return $Cadena;    
             }else{
                 $Tempo = strrev($Cadena);
-                $SubTempo = substr($Tempo, 0, $NumStrings);
+                $SubTempo = substr($Tempo, Cero, $NumStrings);
                 Return strrev($SubTempo);
             }
         }else{
@@ -429,18 +436,18 @@ class ObjectFileSystem {
     }
     public function StringsToPositionWordLeft($Cadena , $Palabra , $SinPalabra ){
         // Inicializo Variables
-        $Texto = "";
-        $Resultado = "";
-        $Caracteres = "";
-        $Man = 0;
-        $NumRestantes = 0;
+        $Texto = StringNulo;
+        $Resultado = StringNulo;
+        $Caracteres = StringNulo;
+        $Man = Cero;
+        $NumRestantes = Cero;
         // Y las uso
         $Texto = $Cadena;
         $NumVeces = strlen($Cadena) ;
         if ($this->StringsLeft($Texto, strlen($Palabra)) != $Palabra){
-            for( $Man = 0 ; $Man < $NumVeces ; $Man++ ){
-                $NumRestantes = strlen($Texto) - 1;
-                $Caracteres = $this->StringsLeft($Texto, 1);
+            for( $Man = Cero ; $Man < $NumVeces ; $Man++ ){
+                $NumRestantes = strlen($Texto) - Uno;
+                $Caracteres = $this->StringsLeft($Texto, Uno);
                 $Texto = $this->StringsRight($Texto, $NumRestantes);
                 if ($this->StringsLeft($Texto, strlen($Palabra)) == $Palabra){
                     if ($SinPalabra == true){
@@ -459,18 +466,18 @@ class ObjectFileSystem {
     }
     public function StringsToPositionWordRight($Cadena , $Palabra , $SinPalabra ){
         // Inicializo Variables
-        $Texto = "";
-        $Resultado = "";
-        $Caracteres = "";
-        $Man = 0;
-        $NumRestantes = 0;
+        $Texto = StringNulo;
+        $Resultado = StringNulo;
+        $Caracteres = StringNulo;
+        $Man = Cero;
+        $NumRestantes = Cero;
         // Y las uso
         $Texto = $Cadena;
         $NumVeces = strlen($Cadena) ;
         if ($this->StringsRight($Texto, strlen($Palabra)) != $Palabra){
-            for( $Man = $NumVeces ; $Man > 0 ; $Man-- ){
-                $NumRestantes = strlen($Texto) - 1;
-                $Caracteres = $this->StringsRight($Texto, 1);
+            for( $Man = $NumVeces ; $Man > Cero ; $Man-- ){
+                $NumRestantes = strlen($Texto) - Uno;
+                $Caracteres = $this->StringsRight($Texto, Uno);
                 $Texto = $this->StringsLeft($Texto, $NumRestantes);
                 if ($this->StringsRight($Texto, strlen($Palabra)) == $Palabra){
                     if ($SinPalabra == true){
@@ -489,19 +496,19 @@ class ObjectFileSystem {
     }
     public function StringsWordCount( $Cadena , $Palabra ){
         // Inicializo Variables
-        $NumChrsPalabra = 0;
-        $NumChrsCadena = 0;
-        $Tempo = "";
-        $NumChrsRestantes = 0;
-        $Resultado1 = 0;
-        $Resultado2 = 0;
+        $NumChrsPalabra = Cero;
+        $NumChrsCadena = Cero;
+        $Tempo = StringNulo;
+        $NumChrsRestantes = Cero;
+        $Resultado1 = Cero;
+        $Resultado2 = Cero;
         // Y Ahora Establezco los Valores
         $NumChrsPalabra = strlen($Palabra);
         $NumChrsCadena = strlen($Cadena);
         $Tempo = $this->StringsDeleteWords($Cadena, $Palabra );
         $NumChrsRestantes = strlen($Tempo);
         if ($NumChrsCadena == $NumChrsRestantes ){
-            return 0;
+            return Cero;
         }else{
             $Resultado1 = $NumChrsCadena - $NumChrsRestantes;
             $Resultado2 = $Resultado1 / $NumChrsPalabra;
@@ -521,12 +528,12 @@ class ObjectFileSystem {
         return str_replace($LaPalabra,$PorPalabra,$Cadena);
     }
     public function StringsDeleteWords($Cadena , $Palabra ){
-        $Nada = ""; 
+        $Nada = StringNulo; 
         return $this->StringsReemplaceWords($Cadena, $Palabra, $Nada);
     }
     public function StringsExistWord($Cadena , $Palabra ){
         $NumWords = $this->StringsWordCount($Cadena, $Palabra);
-        if ($NumWords > 0 ){
+        if ($NumWords > Cero ){
             return true;
         }else{
             return false;

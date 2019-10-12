@@ -7,11 +7,11 @@
 	// Aquí se Configura el Tipo de Protocolo Usado por la Web ( http:// o https:// )
 	const TypeProtocol = "http://";
 	// Aquí Se Configura el Número de los Dias Anteriores que se Muestran en Actualizados Recientemente 
-	const DaysCurrentList = 60;
+	const DaysCurrentList = 100;
 	// Aquí Se Configura el Número de Articulos Maximos Cada Vez que se Llama a la Función GetCurrentArticles();
-	const MaxCountCurrentList = 6;
+	const MaxCountCurrentList = 10;
 	// Aquí Se Configura el Número de Articulos Maximos Cada Vez que se Llama a la Función SearchInSections();
-	const MaxCountSearchList = 50;
+	const MaxCountSearchList = 150;
 	// *********************************************************************************************************	
 	// Funciones para la Utilización del Módulo: 	
 	// $Dir = Dirección de Carpeta Raíz Escogida 
@@ -26,6 +26,10 @@
 	// - GetLinkSections($Dir,$InPage); GetLinkSectionsVertical($Dir,$InPage);
 	// *********************************************************************************************************
 	// - GetListArticles($Dir,$InPage); GetListArticlesVertical($Dir,$InPage);
+	// *********************************************************************************************************
+	// - GetListIconArticles($Dir,$InPage); GetListIconArticlesVertical($Dir,$InPage);
+	// *********************************************************************************************************
+	// - GetListReportArticles($Dir,$InPage);  // Cargar en Otra Página de la en que se Cargue GetSections($Dir);
 	// *********************************************************************************************************
 	// - GetSections($Dir); Carga Toda la Raíz en Formato de Artículos de Todas las Secciones 
 	// *********************************************************************************************************
@@ -71,15 +75,25 @@
 	const FilePng = "png";
 	const FileZip = "zip";
 	const FilePdf = "pdf";
+	const FileDoc = "doc";
 	const FileJs = "js";
 	const FileCss = "css";
 	const FileMp3 = "mp3";
 	const FileMp4 = "mp4";
 	const FileHtml = "html";
 	const FilePhp = "php";
+	const FileIso = "iso";
+	const File7Zip = "7z";
 	
 	$ObjFileSys = new ObjectFileSystem();
 	
+	function GetReemplaceTitleLink($RTitleLink){
+		global $ObjFileSys;
+		$NameNoSpaces = $ObjFileSys->StringsReemplaceWords($RTitleLink , Guion , EspacioBlanco );
+		$NameInterrogation = $ObjFileSys->StringsReemplaceWords($NameNoSpaces , CodeInterrogacion , Interrogacion );
+		$Name = $ObjFileSys->StringsReemplaceWords($NameInterrogation , CodeInterrogante  , Interrogante );
+		return $Name;
+	}
 	function GetLinkAbsolute($Dir){
 		global $ObjFileSys;
 		//$ObjFileSys = new ObjectFileSystem();
@@ -116,20 +130,19 @@
 		$Extension = $ObjFileSys->FileExtensionName($Dir);
 		$LongExtension = $ObjFileSys->StringsCount($Extension);
 		$LongExtension++;
-		$NameTemp = $ObjFileSys->StringsLeft($NameFile, $Long - $LongExtension );
-		$NameNoSpaces = $ObjFileSys->StringsReemplaceWords($NameTemp , Guion , EspacioBlanco );
-		$NameInterrogation = $ObjFileSys->StringsReemplaceWords($NameNoSpaces , CodeInterrogacion , Interrogacion );
-		$Name = $ObjFileSys->StringsReemplaceWords($NameInterrogation , CodeInterrogante  , Interrogante );
+		$RTitleLink = $ObjFileSys->StringsLeft($NameFile, $Long - $LongExtension );
+		$Name = GetReemplaceTitleLink($RTitleLink);
 		if ( $Extension == FileHtml || $Extension == FilePhp ){
 			$NameTitlePage = $ObjFileSys->FileGetTitleHTML($Dir);
 			if ($NameTitlePage == StringNulo ){ $NameTitlePage = $NameFile; }
 			$DescriptionPage = $ObjFileSys->FileGetDescriptionHTML($Dir);
 			$Result = '<a href="' . $Dir . '" title="' . $NameFile . " \n " . $DescriptionPage . '" class="LinkArticle" target="_BLANK" >' . $NameTitlePage . '</a> ';
 		}else{
-			if ($Extension == FileZip || $Extension == FilePdf || $Extension == FileMp4 || $Extension == FileMp3) {
-				$Result = '<a href="' . $Dir . '" title="' . $NameFile . '" class="LinkArticle" target="_BLANK" >' . $NameFile . '</a> ';
+			$SpaceFile = $ObjFileSys->FileSizeBytes($Dir);
+			if ($Extension == FileZip || $Extension == FilePdf || $Extension == FileMp4 || $Extension == FileMp3 || $Extension == FileIso || $Extension == FileDoc ) {
+				$Result = '<a href="' . $Dir . '" title="' . $NameFile . " \n FileSize: " . $SpaceFile . '" class="LinkArticle" target="_BLANK" >' . $NameFile . '</a> ';
 			}else{	
-				$Result = '<a href="' . $Dir . '" title="' . $Name . '" class="LinkArticle" target="_BLANK" >' . $Name . '</a> ';
+				$Result = '<a href="' . $Dir . '" title="' . $NameFile . " \n FileSize: " . $SpaceFile . '" class="LinkArticle" target="_BLANK" >' . $Name . '</a> ';
 			}
 		}
 		return $Result; 	
@@ -142,8 +155,8 @@
 		$Extension = $ObjFileSys->FileExtensionName($Dir);
 		$LongExtension = $ObjFileSys->StringsCount($Extension);
 		$LongExtension++;
-		$NameTemp = $ObjFileSys->StringsLeft($NameFile, $Long - $LongExtension );
-		$Name = $ObjFileSys->StringsReemplaceWords($NameTemp , Guion , EspacioBlanco );
+		$RTitleLink = $ObjFileSys->StringsLeft($NameFile, $Long - $LongExtension );
+		$Name = GetReemplaceTitleLink($RTitleLink);
 		//$ShortName = StringNulo;
 		//$NameTitlePageAbrebiate = StringNulo;
 		//if ( $ObjFileSys->StringsCount($Name) > 18 ){
@@ -168,10 +181,11 @@
 			//}
 			$Result = '<label style="color: white;">•</label><a href="' . $Dir . '" title="'  . $NameFile . " \n " . $DescriptionPage .  '" class="LinkArticle" target="_BLANK" >' . $NameTitlePageAbrebiate . '</a> ';
 		}else{
-			if ($Extension == FileZip || $Extension == FilePdf || $Extension == FileMp4 || $Extension == FileMp3) {
-				$Result = '<label style="color: white;">•</label><a href="' . $Dir . '" title="' . $NameFile . '" class="LinkArticle" target="_BLANK" >' . $NameFile . '</a> ';
+			$SpaceFile = $ObjFileSys->FileSizeBytes($Dir);
+			if ($Extension == FileZip || $Extension == FilePdf || $Extension == FileMp4 || $Extension == FileMp3 || $Extension == FileIso || $Extension == FileDoc) {
+				$Result = '<label style="color: white;">•</label><a href="' . $Dir . '" title="' . $NameFile . " \n FileSize: " . $SpaceFile . '" class="LinkArticle" target="_BLANK" >' . $NameFile . '</a> ';
 			}else{	
-				$Result = '<label style="color: white;">•</label><a href="' . $Dir . '" title="' . $Name . '" class="LinkArticle" target="_BLANK" >' . $ShortName . '</a> ';
+				$Result = '<label style="color: white;">•</label><a href="' . $Dir . '" title="' . $NameFile . " \n FileSize: " . $SpaceFile . '" class="LinkArticle" target="_BLANK" >' . $ShortName . '</a> ';
 			}
 		}
 		return $Result; 	
@@ -185,7 +199,15 @@
 			return $Resultado;
 		}
 	}
-	// Funciones obligatorias para la Creación de Códigos para Graficos
+	// Funciones obligatorias para la Creación de Códigos
+	function GetArticle($Dir){
+		$Retorno = GetFilesDirectory($Dir,false,false);
+		return $Retorno;	
+	}
+	function GetReportArticle($Dir){
+		$Retorno = GetFilesDirectory($Dir,false,true);
+		return $Retorno;	
+	}	
 	function GetImageArticle($Dir){
 		global $ObjFileSys;
 		//$ObjFileSys = new ObjectFileSystem();
@@ -196,12 +218,11 @@
 		$LongExtension++;
 		$NameTemp = $ObjFileSys->StringsLeft($NameFile, $Long - $LongExtension );
 		$Name = $ObjFileSys->StringsReemplaceWords($NameTemp , Guion , EspacioBlanco );
-		$Retorno = '<a href="'. $Dir .'"><img src="' . $Dir . '" title="' . $Name . '" alt="' . $Name . '" class="ImageArticle" /></a> ';
+		$Retorno = '<a href="'. $Dir .'"><img src="' . $Dir . '" title="' . $Name . '" alt="' . $NameTemp . '" class="ImageArticle" /></a> ';
 		return $Retorno;
 	}
 	function GetImagePost($Dir){
 		global $ObjFileSys;
-		//$ObjFileSys = new ObjectFileSystem();
 		$NameFile = $ObjFileSys->FileGetName($Dir);
 		$Long = $ObjFileSys->StringsCount($NameFile);
 		$Extension = $ObjFileSys->FileExtensionName($Dir);
@@ -209,11 +230,13 @@
 		$LongExtension++;
 		$NameTemp = $ObjFileSys->StringsLeft($NameFile, $Long - $LongExtension );
 		$Name = $ObjFileSys->StringsReemplaceWords($NameTemp , Guion , EspacioBlanco );
-		$Retorno = '<img src="' . $Dir . '" title="' . $Name . '" alt="' . $Name . '" style="width: 88px; height: 64px;" /> ';
+		$Retorno = '<img src="' . $Dir . '" title="' . $Name . '" alt="' . $NameTemp . '" style="width: 88px; height: 64px;" /> ';
 		return $Retorno;
 	}
 	function GetIcon($Dir){
-		$Result = '<img src="' . $Dir . '" class="LinkIcon" /> ';
+		global $ObjFileSys;
+		$NameFile = $ObjFileSys->FileGetName($Dir);
+		$Result = '<img src="' . $Dir . '" alt="icon-' . $NameFile . '" class="LinkIcon" /> ';
 		return $Result;
 	}
 	function GetVideo($Dir){
@@ -234,154 +257,143 @@
 		$Result = StringNulo;
 		$ArticlesCount = Cero;
 		global $ObjFileSys;
-		//$ObjFileSys = new ObjectFileSystem();
-		$ListFoldersPrin = $ObjFileSys->FolderSubFoldersSORT($Dir);	
-		for ($Man = Cero; $Man < count($ListFoldersPrin); $Man++ ) {
-			$ListFolders = $ObjFileSys->FolderSubFoldersSORT($ListFoldersPrin[$Man] . Barra);
-			//$Result = $Result . '<div><h2 class="TitleSection" >' . $NameFolder . '</h2>';
-			for ($SubMan = Cero; $SubMan < count($ListFolders); $SubMan++ ) {
-				$Path = $ObjFileSys->FolderRepair($ListFolders[$SubMan]);
-				$TempNameFolder = $ObjFileSys->FileGetName($Path);
-				$NameFolder = $ObjFileSys->StringsReemplaceWords($TempNameFolder , EspacioBlanco , Guion );
-				$NameTemp = $ObjFileSys->StringsReemplaceWords($NameFolder , Guion , EspacioBlanco );
-				$NameNoSpaces = $ObjFileSys->StringsReemplaceWords($NameTemp , Guion , EspacioBlanco );
-				$NameInterrogation = $ObjFileSys->StringsReemplaceWords($NameNoSpaces , CodeInterrogacion , Interrogacion );
-				$Name = $ObjFileSys->StringsReemplaceWords($NameInterrogation , CodeInterrogante  , Interrogante );
-				$Result = $Result . '<div style="display: inline-block;" ><a class="LinkArticle" href="'  . $InPage . "#" . $NameFolder . '" >' . $Name . '</a></div> ';
+		if ($ObjFileSys->FolderExist($Dir) == true){
+			$ListFoldersPrin = $ObjFileSys->FolderSubFoldersSORT($Dir);	
+			for ($Man = Cero; $Man < count($ListFoldersPrin); $Man++ ) {
+				$ListFolders = $ObjFileSys->FolderSubFoldersSORT($ListFoldersPrin[$Man] . Barra);
+				//$Result = $Result . '<div><h2 class="TitleSection" >' . $NameFolder . '</h2>';
+				for ($SubMan = Cero; $SubMan < count($ListFolders); $SubMan++ ) {
+					$Path = $ObjFileSys->FolderRepair($ListFolders[$SubMan]);
+					$RTitleLink = $ObjFileSys->FileGetName($Path);
+					$NameFolder = $ObjFileSys->StringsReemplaceWords($RTitleLink, EspacioBlanco , Guion );
+					$Name = GetReemplaceTitleLink($RTitleLink);
+					$Result = $Result . '<div style="display: inline-block;" ><a class="LinkArticle" href="'  . $InPage . "#" . $NameFolder . '" >' . $Name . '</a></div> ';
+				}
 			}
+			return $Result;
 		}
-		return $Result;
 	}
 	function GetListArticlesVertical($Dir,$InPage){
 		$Result = StringNulo;
 		$ArticlesCount = Cero;
 		global $ObjFileSys;
-		//$ObjFileSys = new ObjectFileSystem();
-		$ListFoldersPrin = $ObjFileSys->FolderSubFoldersSORT($Dir);	
-		for ($Man = Cero; $Man < count($ListFoldersPrin); $Man++ ) {
-			$ListFolders = $ObjFileSys->FolderSubFoldersSORT($ListFoldersPrin[$Man] . Barra);
-			//$Result = $Result . '<div><h2 class="TitleSection" >' . $NameFolder . '</h2>';
-			for ($SubMan = Cero; $SubMan < count($ListFolders); $SubMan++ ) {
-				$Path = $ObjFileSys->FolderRepair($ListFolders[$SubMan]);
-				$TempNameFolder = $ObjFileSys->FileGetName($Path);
-				$NameFolder = $ObjFileSys->StringsReemplaceWords($TempNameFolder , EspacioBlanco , Guion );
-				$NameTemp = $ObjFileSys->StringsReemplaceWords($NameFolder , Guion , EspacioBlanco );
-				$NameNoSpaces = $ObjFileSys->StringsReemplaceWords($NameTemp , Guion , EspacioBlanco );
-				$NameInterrogation = $ObjFileSys->StringsReemplaceWords($NameNoSpaces , CodeInterrogacion , Interrogacion );
-				$Name = $ObjFileSys->StringsReemplaceWords($NameInterrogation , CodeInterrogante  , Interrogante );
-				$Result = $Result . '<div><a class="LinkArticle" href="'  . $InPage . "#" . $NameFolder . '" >' . $Name . '</a></div>';
+		if ($ObjFileSys->FolderExist($Dir) == true){
+			$ListFoldersPrin = $ObjFileSys->FolderSubFoldersSORT($Dir);	
+			for ($Man = Cero; $Man < count($ListFoldersPrin); $Man++ ) {
+				$ListFolders = $ObjFileSys->FolderSubFoldersSORT($ListFoldersPrin[$Man] . Barra);
+				//$Result = $Result . '<div><h2 class="TitleSection" >' . $NameFolder . '</h2>';
+				for ($SubMan = Cero; $SubMan < count($ListFolders); $SubMan++ ) {
+					$Path = $ObjFileSys->FolderRepair($ListFolders[$SubMan]);
+					$RTitleLink = $ObjFileSys->FileGetName($Path);
+					$NameFolder = $ObjFileSys->StringsReemplaceWords($RTitleLink, EspacioBlanco , Guion );
+					$Name = GetReemplaceTitleLink($RTitleLink);
+					$Result = $Result . '<div><a class="LinkArticle" href="'  . $InPage . "#" . $NameFolder . '" >' . $Name . '</a></div>';
+				}
 			}
-		}
-		return $Result;
+			return $Result;
+		}	
 	}
 	function GetListReportArticles($Dir,$InPage){
 		$Result = StringNulo;
 		$ArticlesCount = Cero;
 		global $ObjFileSys;
-		//$ObjFileSys = new ObjectFileSystem();
-		$ListFoldersPrin = $ObjFileSys->FolderSubFoldersSORT($Dir);	
-		for ($Man = Cero; $Man < count($ListFoldersPrin); $Man++ ) {
-			$ListFolders = $ObjFileSys->FolderSubFoldersSORT($ListFoldersPrin[$Man] . Barra);
-			//$Result = $Result . '<div><h2 class="TitleSection" >' . $NameFolder . '</h2>';
-			for ($SubMan = Cero; $SubMan < count($ListFolders); $SubMan++ ) {
-				$Path = $ObjFileSys->FolderRepair($ListFolders[$SubMan]);
-				$TempNameFolder = $ObjFileSys->FileGetName($Path);
-				$NameFolder = $ObjFileSys->StringsReemplaceWords($TempNameFolder , EspacioBlanco , Guion );
-				$NameTemp = $ObjFileSys->StringsReemplaceWords($NameFolder , Guion , EspacioBlanco );
-				$NameNoSpaces = $ObjFileSys->StringsReemplaceWords($NameTemp , Guion , EspacioBlanco );
-				$NameInterrogation = $ObjFileSys->StringsReemplaceWords($NameNoSpaces , CodeInterrogacion , Interrogacion );
-				$Name = $ObjFileSys->StringsReemplaceWords($NameInterrogation , CodeInterrogante  , Interrogante );
-				$fecha2 = date(EtiquetasTiempo1,filemtime($ListFolders[$SubMan] . Barra));
-				$VarDia = date(EtiquetasTiempo2,filemtime($ListFolders[$SubMan] . Barra));
-				$fecha3 = $ObjFileSys->GetTextoDiaSemana( $VarDia );
-				$Result = $Result . '<a id="' . $NameFolder . '" href="'  . $InPage . "#" . $NameFolder . '" ><div style="vertical-align: top; background-color: rgb(32,32,32); width: 90%; max-width: 320px; display: inline-block; padding: 2px; cursor: pointer; border: double 2px white; border-radius: 10px; font-size: 5mm;" ><br><p style="cursor: pointer; color: red; text-align: left; font-size: 3.5mm;" >' . $fecha2 . ' , ' . $fecha3 . '</p><br><h4 style="cursor: pointer; color: blue; text-align: center;" >' . $Name . ' <label style="color: yellow; font-size: 3.5mm;">Ver Más</label></h4><div style="cursor: pointer; color: white;" >' . GetFirstTitleTextDirectory($ListFolders[$SubMan]) . '<br><br></div><p style="text-align: center;" >' . GetFirstImagesDirectory($ListFolders[$SubMan]) . '</p></div></a> ';
+		if ($ObjFileSys->FolderExist($Dir) == true){
+			$ListFoldersPrin = $ObjFileSys->FolderSubFoldersSORT($Dir);	
+			for ($Man = Cero; $Man < count($ListFoldersPrin); $Man++ ) {
+				$ListFolders = $ObjFileSys->FolderSubFoldersSORT($ListFoldersPrin[$Man] . Barra);
+				//$Result = $Result . '<div><h2 class="TitleSection" >' . $NameFolder . '</h2>';
+				for ($SubMan = Cero; $SubMan < count($ListFolders); $SubMan++ ) {
+					$Path = $ObjFileSys->FolderRepair($ListFolders[$SubMan]);
+					$RTitleLink = $ObjFileSys->FileGetName($Path);
+					$NameFolder = $ObjFileSys->StringsReemplaceWords($RTitleLink, EspacioBlanco , Guion );
+					$Name = GetReemplaceTitleLink($RTitleLink);
+					$fecha2 = date(EtiquetasTiempo1,filemtime($ListFolders[$SubMan] . Barra));
+					$VarDia = date(EtiquetasTiempo2,filemtime($ListFolders[$SubMan] . Barra));
+					$fecha3 = $ObjFileSys->GetTextoDiaSemana( $VarDia );
+					$Result = $Result . '<a id="' . $NameFolder . '" href="'  . $InPage . "#" . $NameFolder . '" ><div style="vertical-align: top; background-color: rgb(32,32,32); width: 90%; max-width: 320px; display: inline-block; padding: 2px; cursor: pointer; border: double 2px white; border-radius: 10px; font-size: 5mm;" ><br><p style="cursor: pointer; color: red; text-align: left; font-size: 3.5mm;" >' . $fecha2 . ' , ' . $fecha3 . '</p><br><h4 style="cursor: pointer; color: blue; text-align: center;" >' . $Name . ' <label style="color: yellow; font-size: 3.5mm;">Ver Más</label></h4><div style="cursor: pointer; color: white;" >' . GetFirstTitleTextDirectory($ListFolders[$SubMan]) . '<br><br></div><p style="text-align: center;" >' . GetFirstImagesDirectory($ListFolders[$SubMan]) . '</p></div></a> ';
+				}
 			}
-		}
-		return $Result;
+			return $Result;
+		}	
 	}
 	function GetListIconArticles($Dir,$InPage){
 		$Result = StringNulo;
 		$ArticlesCount = Cero;
 		global $ObjFileSys;
-		//$ObjFileSys = new ObjectFileSystem();
-		$ListFoldersPrin = $ObjFileSys->FolderSubFoldersSORT($Dir);	
-		for ($Man = Cero; $Man < count($ListFoldersPrin); $Man++ ) {
-			$ListFolders = $ObjFileSys->FolderSubFoldersSORT($ListFoldersPrin[$Man] . Barra);
-			//$Result = $Result . '<div><h2 class="TitleSection" >' . $NameFolder . '</h2>';
-			for ($SubMan = Cero; $SubMan < count($ListFolders); $SubMan++ ) {
-				$Path = $ObjFileSys->FolderRepair($ListFolders[$SubMan]);
-				$TempNameFolder = $ObjFileSys->FileGetName($Path);
-				$NameFolder = $ObjFileSys->StringsReemplaceWords($TempNameFolder , EspacioBlanco , Guion );
-				$NameTemp = $ObjFileSys->StringsReemplaceWords($NameFolder , Guion , EspacioBlanco );
-				$NameNoSpaces = $ObjFileSys->StringsReemplaceWords($NameTemp , Guion , EspacioBlanco );
-				$NameInterrogation = $ObjFileSys->StringsReemplaceWords($NameNoSpaces , CodeInterrogacion , Interrogacion );
-				$Name = $ObjFileSys->StringsReemplaceWords($NameInterrogation , CodeInterrogante  , Interrogante );
-				$Result = $Result . '<a class="LinkArticle" href="'  . $InPage . "#" . $NameFolder . '" >' . '<div style="display: inline-block; pading: 2px; cursor: pointer; border: double 2px white; border-radius: 10px;" >' . GetFirstImageArticle($ListFolders[$SubMan]) . '<label class="LinkArticle" style="cursor: pointer;" >' . $Name . '</label></div></a> ';
+		if ($ObjFileSys->FolderExist($Dir) == true){
+			$ListFoldersPrin = $ObjFileSys->FolderSubFoldersSORT($Dir);	
+			for ($Man = Cero; $Man < count($ListFoldersPrin); $Man++ ) {
+				$ListFolders = $ObjFileSys->FolderSubFoldersSORT($ListFoldersPrin[$Man] . Barra);
+				//$Result = $Result . '<div><h2 class="TitleSection" >' . $NameFolder . '</h2>';
+				for ($SubMan = Cero; $SubMan < count($ListFolders); $SubMan++ ) {
+					$Path = $ObjFileSys->FolderRepair($ListFolders[$SubMan]);
+					$RTitleLink = $ObjFileSys->FileGetName($Path);
+					$NameFolder = $ObjFileSys->StringsReemplaceWords($RTitleLink, EspacioBlanco , Guion );
+					$Name = GetReemplaceTitleLink($RTitleLink);
+					$Result = $Result . '<a class="LinkArticle" href="'  . $InPage . "#" . $NameFolder . '" >' . '<div style="display: inline-block; pading: 2px; cursor: pointer; border: double 2px white; border-radius: 10px;" >' . GetFirstImageArticle($ListFolders[$SubMan]) . '<label class="LinkArticle" style="cursor: pointer;" >' . $Name . '</label></div></a> ';
+				}
 			}
-		}
-		return $Result;
+			return $Result;
+		}	
 	}
 	function GetListIconArticlesVertical($Dir,$InPage){
 		$Result = StringNulo;
 		$ArticlesCount = Cero;
 		global $ObjFileSys;
-		//$ObjFileSys = new ObjectFileSystem();
-		$ListFoldersPrin = $ObjFileSys->FolderSubFoldersSORT($Dir);	
-		for ($Man = Cero; $Man < count($ListFoldersPrin); $Man++ ) {
-			$ListFolders = $ObjFileSys->FolderSubFoldersSORT($ListFoldersPrin[$Man] . Barra);
-			//$Result = $Result . '<div><h2 class="TitleSection" >' . $NameFolder . '</h2>';
-			for ($SubMan = Cero; $SubMan < count($ListFolders); $SubMan++ ) {
-				$Path = $ObjFileSys->FolderRepair($ListFolders[$SubMan]);
-				$TempNameFolder = $ObjFileSys->FileGetName($Path);
-				$NameFolder = $ObjFileSys->StringsReemplaceWords($TempNameFolder , EspacioBlanco , Guion );
-				$NameTemp = $ObjFileSys->StringsReemplaceWords($NameFolder , Guion , EspacioBlanco );
-				$NameNoSpaces = $ObjFileSys->StringsReemplaceWords($NameTemp , Guion , EspacioBlanco );
-				$NameInterrogation = $ObjFileSys->StringsReemplaceWords($NameNoSpaces , CodeInterrogacion , Interrogacion );
-				$Name = $ObjFileSys->StringsReemplaceWords($NameInterrogation , CodeInterrogante  , Interrogante );
-				$Result = $Result . '<a class="LinkArticle" href="'  . $InPage . "#" . $NameFolder . '" >' . '<div style="border: double 2px white; pading: 2px; cursor: pointer; border-radius: 10px;" >' . GetFirstImageArticle($ListFolders[$SubMan]) . '<label class="LinkArticle" style="cursor: pointer;" >' . $Name . '</label></div></a><br>';
+		if ($ObjFileSys->FolderExist($Dir) == true){
+			$ListFoldersPrin = $ObjFileSys->FolderSubFoldersSORT($Dir);	
+			for ($Man = Cero; $Man < count($ListFoldersPrin); $Man++ ) {
+				$ListFolders = $ObjFileSys->FolderSubFoldersSORT($ListFoldersPrin[$Man] . Barra);
+				//$Result = $Result . '<div><h2 class="TitleSection" >' . $NameFolder . '</h2>';
+				for ($SubMan = Cero; $SubMan < count($ListFolders); $SubMan++ ) {
+					$Path = $ObjFileSys->FolderRepair($ListFolders[$SubMan]);
+					$RTitleLink = $ObjFileSys->FileGetName($Path);
+					$NameFolder = $ObjFileSys->StringsReemplaceWords($RTitleLink, EspacioBlanco , Guion );
+					$Name = GetReemplaceTitleLink($RTitleLink);
+					$Result = $Result . '<a class="LinkArticle" href="'  . $InPage . "#" . $NameFolder . '" >' . '<div style="border: double 2px white; pading: 2px; cursor: pointer; border-radius: 10px;" >' . GetFirstImageArticle($ListFolders[$SubMan]) . '<label class="LinkArticle" style="cursor: pointer;" >' . $Name . '</label></div></a><br>';
+				}
 			}
-		}
-		return $Result;
+			return $Result;
+		}	
 	}
 	function GetCurrentArticles($Dir,$InPage){
 		$Result = StringNulo;
 		//$ArticlesCount = Cero;
 		global $ObjFileSys;
-		//$ObjFileSys = new ObjectFileSystem();
-		$ListFoldersPrin = $ObjFileSys->FolderSubFoldersSORT($Dir);
-		$ListadoRecolecta[] = StringNulo;
-		$Cuenta = Cero;	
-		for ($Man = Cero; $Man < count($ListFoldersPrin); $Man++ ) {
-			$ListFolders = $ObjFileSys->FolderSubFoldersSORT($ListFoldersPrin[$Man] . Barra);
-			//$Result = $Result . '<div><h2 class="TitleSection" >' . $NameFolder . '</h2>';
-			for ($SubMan = Cero; $SubMan < count($ListFolders); $SubMan++ ) {
-				$Path = $ObjFileSys->FolderRepair($ListFolders[$SubMan]);
-				$TempNameFolder = $ObjFileSys->FileGetName($Path);
-				$NameFolder = $ObjFileSys->StringsReemplaceWords($TempNameFolder , EspacioBlanco , Guion );
-				$NameNoSpaces = $ObjFileSys->StringsReemplaceWords($NameFolder , Guion , EspacioBlanco );
-				$NameInterrogation = $ObjFileSys->StringsReemplaceWords($NameNoSpaces , CodeInterrogacion , Interrogacion );
-				$Name = $ObjFileSys->StringsReemplaceWords($NameInterrogation , CodeInterrogante  , Interrogante );
-				//$fecha1 = date("Y/m/d H:i:s");
-				$fecha2 = date(EtiquetasTiempo1,filemtime($ListFolders[$SubMan] . Barra));
-				$VarDia = date(EtiquetasTiempo2,filemtime($ListFolders[$SubMan] . Barra));
-				$fecha3 = $ObjFileSys->GetTextoDiaSemana( $VarDia );
-				//$fecha3 = $ObjFileSys->FileDateModify($ListFolders[$SubMan]);
-				$interval = strtotime(Ahora) - strtotime($fecha2);
-				$DaysInterval = SegundosDia * DaysCurrentList; 
-				If ($interval < $DaysInterval){
-					$ListadoRecolecta[$Cuenta] = '<div class="CurrentArticle"><p style="color: rgb(255,64,64); text-align: left;">' . $fecha2 . ' , ' . $fecha3 . ' </p><label style="vertical-align: top;">'  . GetLinkCurrentSection( $InPage . "#" . $NameFolder, $Name) . '</label><br>' . GetFirstTitleTextDirectory($ListFolders[$SubMan]) . '<br>' . GetFirstLinksDirectory($ListFolders[$SubMan]) . '<br><br><p style="text-align: center;" >' . GetFirstImagesDirectory($ListFolders[$SubMan]) . '</p></div>';
-					$Cuenta++;
-					//$ArticlesCount = $ArticlesCount + Uno;
-				}			
+		if ($ObjFileSys->FolderExist($Dir) == true){
+			$ListFoldersPrin = $ObjFileSys->FolderSubFoldersSORT($Dir);
+			$ListadoRecolecta[] = StringNulo;
+			$Cuenta = Cero;	
+			for ($Man = Cero; $Man < count($ListFoldersPrin); $Man++ ) {
+				$ListFolders = $ObjFileSys->FolderSubFoldersSORT($ListFoldersPrin[$Man] . Barra);
+				//$Result = $Result . '<div><h2 class="TitleSection" >' . $NameFolder . '</h2>';
+				for ($SubMan = Cero; $SubMan < count($ListFolders); $SubMan++ ) {
+					$Path = $ObjFileSys->FolderRepair($ListFolders[$SubMan]);
+					$RTitleLink = $ObjFileSys->FileGetName($Path);
+					$NameFolder = $ObjFileSys->StringsReemplaceWords($RTitleLink, EspacioBlanco , Guion );
+					$Name = GetReemplaceTitleLink($RTitleLink);
+					//$fecha1 = date("Y/m/d H:i:s");
+					$fecha2 = date(EtiquetasTiempo1,filemtime($ListFolders[$SubMan] . Barra));
+					$VarDia = date(EtiquetasTiempo2,filemtime($ListFolders[$SubMan] . Barra));
+					$fecha3 = $ObjFileSys->GetTextoDiaSemana( $VarDia );
+					//$fecha3 = $ObjFileSys->FileDateModify($ListFolders[$SubMan]);
+					$interval = strtotime(Ahora) - strtotime($fecha2);
+					$DaysInterval = SegundosDia * DaysCurrentList; 
+					If ($interval < $DaysInterval){
+						$ListadoRecolecta[$Cuenta] = '<div class="CurrentArticle"><p style="color: rgb(255,64,64); text-align: left;">' . $fecha2 . ' , ' . $fecha3 . ' </p><label style="vertical-align: top;">'  . GetLinkCurrentSection( $InPage . "#" . $NameFolder, $Name) . '</label><br>' . GetFirstTitleTextDirectory($ListFolders[$SubMan]) . '<br>' . GetFirstLinksDirectory($ListFolders[$SubMan]) . '<br><br><p style="text-align: center;" >' . GetFirstImagesDirectory($ListFolders[$SubMan]) . '</p></div>';
+						$Cuenta++;
+						//$ArticlesCount = $ArticlesCount + Uno;
+					}			
+				}
 			}
+			rsort($ListadoRecolecta);
+			for ($Man = Cero; $Man < count($ListadoRecolecta); $Man++ ) {
+				$Result = $Result . $ListadoRecolecta[$Man] . EspacioBlanco;
+				if ($Man + Uno >= MaxCountCurrentList){
+					break;
+				}
+			}	
 		}
-		rsort($ListadoRecolecta);
-		for ($Man = Cero; $Man < count($ListadoRecolecta); $Man++ ) {
-			$Result = $Result . $ListadoRecolecta[$Man] . EspacioBlanco;
-			if ($Man + Uno >= MaxCountCurrentList){
-				break;
-			}
-		}	
 		return $Result;	
 	}
 	function GetDataSubFolders($Dir){
@@ -392,9 +404,7 @@
 		for ($SubMan = Cero; $SubMan < count($ListFolders); $SubMan++ ) {
 			$Path = $ListFolders[$SubMan];
 			$NameFile = $ObjFileSys->FileGetName($Path);
-			$NameNoSpaces = $ObjFileSys->StringsReemplaceWords($NameFile , Guion , EspacioBlanco );
-			$NameInterrogation = $ObjFileSys->StringsReemplaceWords($NameNoSpaces , CodeInterrogacion , Interrogacion );
-			$Name = $ObjFileSys->StringsReemplaceWords($NameInterrogation , CodeInterrogante  , Interrogante );
+			$Name = GetReemplaceTitleLink($NameFile);
 			$Extension = $ObjFileSys->FileExtensionName($Path);
 			$Long = $ObjFileSys->StringsCount($Path);
 			$ResultFunction = GetFilesDirectory($Path,true,false);
@@ -432,7 +442,7 @@
 					}
 					$Long = $ObjFileSys->StringsCount($Path) - $ObjFileSys->StringsCount($Dir);
 					$NameTemp = $ObjFileSys->StringsRight($Path, $Long);
-					$Name = $ObjFileSys->StringsReemplaceWords($NameTemp , Guion , EspacioBlanco );
+					$Name = GetReemplaceTitleLink($NameTemp);
 					$Result = $Result . '<article id="' . $NameTemp . '" class="Article"><br><br><hr><br><h3 class="TitleArticle">' . GetIcon('./img/Articulo.png') . $Name . '</h3><br><hr><br>' . $ResultFunction . '<br><hr><p class="TitleArticle"><br>Puntuación del Autor: <label class="ColorWhite">' . $Valoracion . '</label><br><br>' . $Estrellas . '</p><br><hr><br>' . '</article>';
 				}
 			}	
@@ -442,57 +452,57 @@
 	function GetLinkSections($Dir,$InPage){
 		$Resultado = StringNulo;
 		global $ObjFileSys;
-		//$ObjFileSys = new ObjectFileSystem();
-		$ListadoSubDirectorios = $ObjFileSys->FolderSubFoldersSORT($Dir);
-		if (count($ListadoSubDirectorios) > Cero){
-			for ($Man = Cero; $Man < count($ListadoSubDirectorios); $Man++ ) {
-				$NombreDirectorio = $ObjFileSys->FileGetName($ListadoSubDirectorios[$Man]);
-				$IdNombre = $ObjFileSys->StringsReemplaceWords($NombreDirectorio , EspacioBlanco , Guion );
-				$NombreTemp = $ObjFileSys->StringsReemplaceWords($NombreDirectorio , Guion , EspacioBlanco );
-				$NameInterrogation = $ObjFileSys->StringsReemplaceWords($NombreTemp , CodeInterrogacion , Interrogacion );
-				$Nombre = $ObjFileSys->StringsReemplaceWords($NameInterrogation , CodeInterrogante  , Interrogante );
-				$Resultado = $Resultado . '<div style="padding: 5px;" class="DisplayLineBlock" ><a class="LinkSection" href="' . $InPage . '#' . $IdNombre . '" >' . $Nombre . '</a></div> ';
+		if ($ObjFileSys->FolderExist($Dir) == true){
+			$ListadoSubDirectorios = $ObjFileSys->FolderSubFoldersSORT($Dir);
+			if (count($ListadoSubDirectorios) > Cero){
+				for ($Man = Cero; $Man < count($ListadoSubDirectorios); $Man++ ) {
+					$NombreDirectorio = $ObjFileSys->FileGetName($ListadoSubDirectorios[$Man]);
+					$IdNombre = $ObjFileSys->StringsReemplaceWords($NombreDirectorio , EspacioBlanco , Guion );
+					$NombreTemp = $ObjFileSys->StringsReemplaceWords($NombreDirectorio , Guion , EspacioBlanco );
+					$NameInterrogation = $ObjFileSys->StringsReemplaceWords($NombreTemp , CodeInterrogacion , Interrogacion );
+					$Nombre = $ObjFileSys->StringsReemplaceWords($NameInterrogation , CodeInterrogante  , Interrogante );
+					$Resultado = $Resultado . '<div style="padding: 5px;" class="DisplayLineBlock" ><a class="LinkSection" href="' . $InPage . '#' . $IdNombre . '" >' . $Nombre . '</a></div> ';
+				}
 			}
-		}
+		}	
 		return $Resultado;	
 	}
 	function GetLinkSectionsVertical($Dir,$InPage){
 		$Resultado = StringNulo;
 		global $ObjFileSys;
-		//$ObjFileSys = new ObjectFileSystem();
-		$ListadoSubDirectorios = $ObjFileSys->FolderSubFoldersSORT($Dir);
-		if (count($ListadoSubDirectorios) > Cero){
-			for ($Man = Cero; $Man < count($ListadoSubDirectorios); $Man++ ) {
-				$NombreDirectorio = $ObjFileSys->FileGetName($ListadoSubDirectorios[$Man]);
-				$IdNombre = $ObjFileSys->StringsReemplaceWords($NombreDirectorio , EspacioBlanco , Guion );
-				$NombreTemp = $ObjFileSys->StringsReemplaceWords($NombreDirectorio , Guion , EspacioBlanco );
-				$NameInterrogation = $ObjFileSys->StringsReemplaceWords($NombreTemp , CodeInterrogacion , Interrogacion );
-				$Nombre = $ObjFileSys->StringsReemplaceWords($NameInterrogation , CodeInterrogante  , Interrogante );
-				$Resultado = $Resultado . '<div style="width: 96%; padding: 1%;" ><a class="LinkSection" href="' . $InPage . '#' . $IdNombre . '" >' . $Nombre . '</a></div><br>';
+		if ($ObjFileSys->FolderExist($Dir) == true){
+			$ListadoSubDirectorios = $ObjFileSys->FolderSubFoldersSORT($Dir);
+			if (count($ListadoSubDirectorios) > Cero){
+				for ($Man = Cero; $Man < count($ListadoSubDirectorios); $Man++ ) {
+					$NombreDirectorio = $ObjFileSys->FileGetName($ListadoSubDirectorios[$Man]);
+					$IdNombre = $ObjFileSys->StringsReemplaceWords($NombreDirectorio , EspacioBlanco , Guion );
+					$NombreTemp = $ObjFileSys->StringsReemplaceWords($NombreDirectorio , Guion , EspacioBlanco );
+					$Nombre = GetReemplaceTitleLink($NombreDirectorio);
+					$Resultado = $Resultado . '<div style="width: 96%; padding: 1%;" ><a class="LinkSection" href="' . $InPage . '#' . $IdNombre . '" >' . $Nombre . '</a></div><br>';
+				}
 			}
-		}
+		}	
 		return $Resultado;	
 	}
 	function GetSections($Dir){
 		$Resultado = StringNulo;
 		global $ObjFileSys;
-		//$ObjFileSys = new ObjectFileSystem();
-		$ListadoSubDirectorios = $ObjFileSys->FolderSubFoldersSORT($Dir);
-		if (count($ListadoSubDirectorios) > Cero){
-			for ($Man = Cero; $Man < count($ListadoSubDirectorios); $Man++ ) {
-				$NombreDirectorio = $ObjFileSys->FileGetName($ListadoSubDirectorios[$Man]);
-				$NombreTemp = $ObjFileSys->StringsReemplaceWords($NombreDirectorio , Guion , EspacioBlanco );
-				$NameInterrogation = $ObjFileSys->StringsReemplaceWords($NombreTemp , CodeInterrogacion , Interrogacion );
-				$Nombre = $ObjFileSys->StringsReemplaceWords($NameInterrogation , CodeInterrogante  , Interrogante );
-				$IdNombre = $ObjFileSys->StringsReemplaceWords($NombreDirectorio , EspacioBlanco , Guion );
-				$Resultado = $Resultado . '<section id="'. $IdNombre .'" class="Section"><hr><hr><br><br><br><hr><hr><br>';
-				$NewDir = $ListadoSubDirectorios[$Man];
-				$NumSecciones = $ObjFileSys->FolderSubFoldersCount($NewDir . Barra);
-				$Resultado = $Resultado . '<h2 class="TitleSection">' . GetIcon('./img/Carpeta.png') . $Nombre . ': <label class="ColorWhite">' . $NumSecciones . ' Articulos</label></h2><br><hr><br>';
-				$Resultado = $Resultado . GetDataSubFolders($NewDir . Barra);
-				$Resultado = $Resultado . '<hr></section><br><br>';
+		if ($ObjFileSys->FolderExist($Dir) == true){
+			$ListadoSubDirectorios = $ObjFileSys->FolderSubFoldersSORT($Dir);
+			if (count($ListadoSubDirectorios) > Cero){
+				for ($Man = Cero; $Man < count($ListadoSubDirectorios); $Man++ ) {
+					$NombreDirectorio = $ObjFileSys->FileGetName($ListadoSubDirectorios[$Man]);
+					$Nombre = GetReemplaceTitleLink($NombreDirectorio);
+					$IdNombre = $ObjFileSys->StringsReemplaceWords($NombreDirectorio , EspacioBlanco , Guion );
+					$Resultado = $Resultado . '<section id="'. $IdNombre .'" class="Section"><hr><hr><br><br><br><hr><hr><br>';
+					$NewDir = $ListadoSubDirectorios[$Man];
+					$NumSecciones = $ObjFileSys->FolderSubFoldersCount($NewDir . Barra);
+					$Resultado = $Resultado . '<h2 class="TitleSection">' . GetIcon('./img/Carpeta.png') . $Nombre . ': <label class="ColorWhite">' . $NumSecciones . ' Artículos</label></h2><br><hr><br>';
+					$Resultado = $Resultado . GetDataSubFolders($NewDir . Barra);
+					$Resultado = $Resultado . '<hr></section><br><br>';
+				}
 			}
-		}
+		}	
 		return $Resultado;
 	}
 	function SearchInSections($Dirs,$InPages,$WordText){
@@ -511,14 +521,11 @@
 						$Path = $ObjFileSys->FolderRepair($ListFolders[$SubMan]);
 						$TempNameFolder = $ObjFileSys->FileGetName($Path);
 						$NameFolder = $ObjFileSys->StringsReemplaceWords($TempNameFolder , EspacioBlanco , Guion );
-						$NameTemp = $ObjFileSys->StringsReemplaceWords($NameFolder , Guion , EspacioBlanco );
-						$NameNoSpaces = $ObjFileSys->StringsReemplaceWords($NameTemp , Guion , EspacioBlanco );
-						$NameInterrogation = $ObjFileSys->StringsReemplaceWords($NameNoSpaces , CodeInterrogacion , Interrogacion );
-						$Name = $ObjFileSys->StringsReemplaceWords($NameInterrogation , CodeInterrogante  , Interrogante );
+						$Name = GetReemplaceTitleLink($NameFolder);
 						$NameMinusculas = $ObjFileSys->StringsAllLower($Name);
 						$ResultFunction = GetFilesDirectory($Path,true,false);
 						$ResultFunctionMinusculas = $ObjFileSys->StringsAllLower($ResultFunction);
-						if ($ObjFileSys->StringsWordCount($NameMinusculas,$TextoABuscar) > 0 || $ObjFileSys->StringsWordCount($ResultFunctionMinusculas,$TextoABuscar) > 0){
+						if ($ObjFileSys->StringsWordCount($NameMinusculas,$TextoABuscar) > Cero || $ObjFileSys->StringsWordCount($ResultFunctionMinusculas,$TextoABuscar) > Cero){
 							$CodigoImagen = GetFirstImageArticle($ListFolders[$SubMan]);
 							$Resultado = $Resultado . '<a class="LinkArticle" href="'  . $InPages[$i] . "#" . $NameFolder . '" >' . '<div style="display: inline-block; border: double 2px white; padding: 5px; cursor: pointer; border-radius: 10px; font-size: 7mm;" >' . $CodigoImagen . '<label class="LinkArticle" style="cursor: pointer; font-size: 6mm;" >' . $Name . '</label></div></a><br><br>';
 								$Contador++;
@@ -636,13 +643,14 @@
 				$NewFileSize = '<label style="color: white; vertical-align: top;">' . $ObjFileSys->FileSizeBytes($NewDir) . '</label>';
 				$Extension = $ObjFileSys->StringsAllLower($ObjFileSys->FileExtensionName($ListFiles[$Man]));
 				$NameFile = $ObjFileSys->FileGetName($ListFiles[$Man]);
+				$PrimerCaracter = $ObjFileSys->StringsLeft($NameFile,1);
 				if ($Extension == FileJpg || $Extension == FilePng || $Extension == FileJpeg || $Extension == FileGif ) {
 					if ($SiteMapBoolean == false ){
-						if ( $WithBR == true ){
+						//if ( $WithBR == true ){
 							$Result = $Result . GetImageArticle($NewDir) . EspacioBlanco;	
-						}else{	
-							$Result = $Result .  GetImageArticle($NewDir) . EspacioBlanco;	
-						}
+						//}else{	
+						//	$Result = $Result .  GetImageArticle($NewDir) . EspacioBlanco;	
+						//}
 					}else{
 						$Result = $Result . GetIcon($NewDir) . GetLinkAbsolute($NewDir) . "<br>";	
 					}		
@@ -681,7 +689,7 @@
 								$Result = $Result . '<div class="DisplayLineBlock">' . GetIcon('./img/PDF.png') . GetLinkAbsolute($NewDir) . "</div><br>";	
 							}	
 						}else{
-							if ($Extension == FileZip){
+							if ($Extension == FileZip || $Extension == FileIso || $Extension == FileDoc){
 								if ($SiteMapBoolean == false ){
 									if ( $WithBR == true ){
 										$Result = $Result . '<br><div class="DisplayLineBlock">' . GetIcon('./img/ZIP.png') . GetLinkArticle($NewDir) . EspacioBlanco . $NewFileSize . "</div><br><br>";	
@@ -726,7 +734,7 @@
 											$Result = $Result . '<div class="DisplayLineBlock">' . GetIcon('./img/Video.png') . GetLinkAbsolute($NewDir) . "</div><br>";
 										}		
 									}else{
-										if ($Extension != FileJs || $Extension != FileCss){
+										if ($Extension != FileJs || $Extension != FileCss || $PrimerCaracter != "."){
 											// En este Caso se Pueden Incluir mas Extensiones a Excluir de los Resultados		
 											if ($SiteMapBoolean == false ){
 												if ( $WithBR == true ){
@@ -754,20 +762,22 @@
 		$Result = StringNulo;
 		global $ObjFileSys;
 		//$ObjFileSys = new ObjectFileSystem();
-		$ListFiles = $ObjFileSys->FolderFilesSORT($Dir);
-		if (count($ListFiles) > Cero){
-			for ($Man = Cero; $Man < count($ListFiles); $Man++ ) {
-				$NewDir = $ListFiles[$Man];
-				$NameFile = $ObjFileSys->FileGetName($ListFiles[$Man]);
-				$Long = $ObjFileSys->StringsCount($NameFile);
-				$LongExtension = $ObjFileSys->StringsCount($ObjFileSys->FileExtensionName($NewDir));
-				$LongExtension++;
-				$NameTemp = $ObjFileSys->StringsLeft($NameFile, $Long - $LongExtension );
-				$Name = $ObjFileSys->StringsReemplaceWords($NameTemp , Guion , EspacioBlanco );
-				$ContenFile = $ObjFileSys->FileRead($NewDir, filesize($NewDir) );
-				$Result = $Result . '<article class="Article"><hr><br><h3 class="TitleArticle">' . $Name . '</h3><br><hr><br><iframe class="DisplayLineBlock" width="98%" height="240" src="' . $ContenFile . '" ></iframe><br><br><a href="' . $ContenFile . '" target="_BLANK" class="LinkArticle" >' . $ContenFile . '</a></article>';
+		if ($ObjFileSys->FolderFilesCount($Dir) > Cero){
+			$ListFiles = $ObjFileSys->FolderFilesSORT($Dir);
+			if (count($ListFiles) > Cero){
+				for ($Man = Cero; $Man < count($ListFiles); $Man++ ) {
+					$NewDir = $ListFiles[$Man];
+					$NameFile = $ObjFileSys->FileGetName($ListFiles[$Man]);
+					$Long = $ObjFileSys->StringsCount($NameFile);
+					$LongExtension = $ObjFileSys->StringsCount($ObjFileSys->FileExtensionName($NewDir));
+					$LongExtension++;
+					$NameTemp = $ObjFileSys->StringsLeft($NameFile, $Long - $LongExtension );
+					$Name = $ObjFileSys->StringsReemplaceWords($NameTemp , Guion , EspacioBlanco );
+					$ContenFile = $ObjFileSys->FileRead($NewDir, filesize($NewDir) );
+					$Result = $Result . '<article class="Article"><hr><br><h3 class="TitleArticle">' . $Name . '</h3><br><hr><br><iframe class="DisplayLineBlock" width="98%" height="240" src="' . $ContenFile . '" ></iframe><br><br><a href="' . $ContenFile . '" target="_BLANK" class="LinkArticle" >' . $ContenFile . '</a></article>';
+				}
 			}
-		}
+		}	
 		return $Result;	
 	}
 	// Y por Último la Funcion para Acceder a los Datos para el Sitemap

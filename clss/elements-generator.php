@@ -5,11 +5,11 @@
 	setlocale(LC_ALL,"es_ES");
 	
 	// Aquí se Configura el Tipo de Protocolo Usado por la Web ( http:// o https:// )
-	const TypeProtocol = "http://";
+	const TypeProtocol = "https://";
 	// Aquí Se Configura el Número de los Dias Anteriores que se Muestran en Actualizados Recientemente 
-	const DaysCurrentList = 100;
+	const DaysCurrentList = 14;
 	// Aquí Se Configura el Número de Articulos Maximos Cada Vez que se Llama a la Función GetCurrentArticles();
-	const MaxCountCurrentList = 10;
+	const MaxCountCurrentList = 6;
 	// Aquí Se Configura el Número de Articulos Maximos Cada Vez que se Llama a la Función SearchInSections();
 	const MaxCountSearchList = 150;
 	// *********************************************************************************************************	
@@ -267,7 +267,7 @@
 					$RTitleLink = $ObjFileSys->FileGetName($Path);
 					$NameFolder = $ObjFileSys->StringsReemplaceWords($RTitleLink, EspacioBlanco , Guion );
 					$Name = GetReemplaceTitleLink($RTitleLink);
-					$Result = $Result . '<div style="display: inline-block;" ><a class="LinkArticle" href="'  . $InPage . "#" . $NameFolder . '" >' . $Name . '</a></div> ';
+					$Result = $Result . '<div style="display: inline-block; margin: 10px;" ><a class="LinkArticle" href="'  . $InPage . "#" . $NameFolder . '" >' . $Name . '</a></div> ';
 				}
 			}
 			return $Result;
@@ -287,7 +287,7 @@
 					$RTitleLink = $ObjFileSys->FileGetName($Path);
 					$NameFolder = $ObjFileSys->StringsReemplaceWords($RTitleLink, EspacioBlanco , Guion );
 					$Name = GetReemplaceTitleLink($RTitleLink);
-					$Result = $Result . '<div><a class="LinkArticle" href="'  . $InPage . "#" . $NameFolder . '" >' . $Name . '</a></div>';
+					$Result = $Result . '<div style="margin: 10px;" ><a class="LinkArticle" href="'  . $InPage . "#" . $NameFolder . '" >' . $Name . '</a></div>';
 				}
 			}
 			return $Result;
@@ -310,7 +310,7 @@
 					$fecha2 = date(EtiquetasTiempo1,filemtime($ListFolders[$SubMan] . Barra));
 					$VarDia = date(EtiquetasTiempo2,filemtime($ListFolders[$SubMan] . Barra));
 					$fecha3 = $ObjFileSys->GetTextoDiaSemana( $VarDia );
-					$Result = $Result . '<a id="' . $NameFolder . '" href="'  . $InPage . "#" . $NameFolder . '" ><div style="vertical-align: top; background-color: rgb(32,32,32); width: 90%; max-width: 320px; display: inline-block; padding: 2px; cursor: pointer; border: double 2px white; border-radius: 10px; font-size: 5mm;" ><br><p style="cursor: pointer; color: red; text-align: left; font-size: 3.5mm;" >' . $fecha2 . ' , ' . $fecha3 . '</p><br><h4 style="cursor: pointer; color: blue; text-align: center;" >' . $Name . ' <label style="color: yellow; font-size: 3.5mm;">Ver Más</label></h4><div style="cursor: pointer; color: white;" >' . GetFirstTitleTextDirectory($ListFolders[$SubMan]) . '<br><br></div><p style="text-align: center;" >' . GetFirstImagesDirectory($ListFolders[$SubMan]) . '</p></div></a> ';
+					$Result = $Result . '<a id="' . $NameFolder . '" href="'  . $InPage . "#" . $NameFolder . '" ><div style="vertical-align: top; background-color: rgb(32,32,32); width: 90%; max-width: 320px; display: inline-block; padding: 10px; margin: 10px; cursor: pointer; border: double 2px white; border-radius: 10px; font-size: 5mm;" ><br><p style="cursor: pointer; color: red; text-align: left; font-size: 3.5mm;" >' . $fecha2 . ' , ' . $fecha3 . '</p><br><h4 style="cursor: pointer; color: blue; text-align: center;" >' . $Name . ' <label style="color: yellow; font-size: 3.5mm;">Ver Más</label></h4><div style="cursor: pointer; color: white;" >' . GetFirstTitleTextDirectory($ListFolders[$SubMan]) . '<br><br></div><p style="text-align: center;" >' . GetFirstImagesDirectory($ListFolders[$SubMan]) . '</p></div></a> ';
 				}
 			}
 			return $Result;
@@ -330,7 +330,7 @@
 					$RTitleLink = $ObjFileSys->FileGetName($Path);
 					$NameFolder = $ObjFileSys->StringsReemplaceWords($RTitleLink, EspacioBlanco , Guion );
 					$Name = GetReemplaceTitleLink($RTitleLink);
-					$Result = $Result . '<a class="LinkArticle" href="'  . $InPage . "#" . $NameFolder . '" >' . '<div style="display: inline-block; pading: 2px; cursor: pointer; border: double 2px white; border-radius: 10px;" >' . GetFirstImageArticle($ListFolders[$SubMan]) . '<label class="LinkArticle" style="cursor: pointer;" >' . $Name . '</label></div></a> ';
+					$Result = $Result . '<a class="LinkArticle" href="'  . $InPage . "#" . $NameFolder . '" >' . '<div style="display: inline-block; pading: 10px; margin: 10px; cursor: pointer; border: double 2px white; border-radius: 10px;" >' . GetFirstImageArticle($ListFolders[$SubMan]) . '<label class="LinkArticle" style="cursor: pointer;" >' . $Name . '</label></div></a> ';
 				}
 			}
 			return $Result;
@@ -350,7 +350,7 @@
 					$RTitleLink = $ObjFileSys->FileGetName($Path);
 					$NameFolder = $ObjFileSys->StringsReemplaceWords($RTitleLink, EspacioBlanco , Guion );
 					$Name = GetReemplaceTitleLink($RTitleLink);
-					$Result = $Result . '<a class="LinkArticle" href="'  . $InPage . "#" . $NameFolder . '" >' . '<div style="border: double 2px white; pading: 2px; cursor: pointer; border-radius: 10px;" >' . GetFirstImageArticle($ListFolders[$SubMan]) . '<label class="LinkArticle" style="cursor: pointer;" >' . $Name . '</label></div></a><br>';
+					$Result = $Result . '<a class="LinkArticle" href="'  . $InPage . "#" . $NameFolder . '" >' . '<div style="border: double 2px white; pading: 10px; margin: 10px; cursor: pointer; border-radius: 10px;" >' . GetFirstImageArticle($ListFolders[$SubMan]) . '<label class="LinkArticle" style="cursor: pointer;" >' . $Name . '</label></div></a><br>';
 				}
 			}
 			return $Result;
@@ -461,7 +461,7 @@
 					$NombreTemp = $ObjFileSys->StringsReemplaceWords($NombreDirectorio , Guion , EspacioBlanco );
 					$NameInterrogation = $ObjFileSys->StringsReemplaceWords($NombreTemp , CodeInterrogacion , Interrogacion );
 					$Nombre = $ObjFileSys->StringsReemplaceWords($NameInterrogation , CodeInterrogante  , Interrogante );
-					$Resultado = $Resultado . '<div style="padding: 5px;" class="DisplayLineBlock" ><a class="LinkSection" href="' . $InPage . '#' . $IdNombre . '" >' . $Nombre . '</a></div> ';
+					$Resultado = $Resultado . '<div style="padding: 5px; margin: 5px;" class="DisplayLineBlock" ><a class="LinkSection" href="' . $InPage . '#' . $IdNombre . '" >' . $Nombre . '</a></div> ';
 				}
 			}
 		}	
@@ -478,7 +478,7 @@
 					$IdNombre = $ObjFileSys->StringsReemplaceWords($NombreDirectorio , EspacioBlanco , Guion );
 					$NombreTemp = $ObjFileSys->StringsReemplaceWords($NombreDirectorio , Guion , EspacioBlanco );
 					$Nombre = GetReemplaceTitleLink($NombreDirectorio);
-					$Resultado = $Resultado . '<div style="width: 96%; padding: 1%;" ><a class="LinkSection" href="' . $InPage . '#' . $IdNombre . '" >' . $Nombre . '</a></div><br>';
+					$Resultado = $Resultado . '<div style="width: 96%; padding: 5px; margin: 5px;" ><a class="LinkSection" href="' . $InPage . '#' . $IdNombre . '" >' . $Nombre . '</a></div>';
 				}
 			}
 		}	
@@ -494,7 +494,7 @@
 					$NombreDirectorio = $ObjFileSys->FileGetName($ListadoSubDirectorios[$Man]);
 					$Nombre = GetReemplaceTitleLink($NombreDirectorio);
 					$IdNombre = $ObjFileSys->StringsReemplaceWords($NombreDirectorio , EspacioBlanco , Guion );
-					$Resultado = $Resultado . '<section id="'. $IdNombre .'" class="Section"><hr><hr><br><br><br><hr><hr><br>';
+					$Resultado = $Resultado . '<section id="'. $IdNombre .'" style="margin: 15px;" class="Section"><hr><hr><br><br><br><hr><hr><br>';
 					$NewDir = $ListadoSubDirectorios[$Man];
 					$NumSecciones = $ObjFileSys->FolderSubFoldersCount($NewDir . Barra);
 					$Resultado = $Resultado . '<h2 class="TitleSection">' . GetIcon('./img/Carpeta.png') . $Nombre . ': <label class="ColorWhite">' . $NumSecciones . ' Artículos</label></h2><br><hr><br>';
